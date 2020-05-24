@@ -7,7 +7,7 @@ import NavBar from "./components/NavBar";
 import UserActionContainer from "./containers/UserActionContainer";
 import RecipeListContainer from "./containers/RecipeListContainer";
 import RecipeDetailsContainer from "./containers/RecipeDetailContainer";
-import NewRecipeForm from "./components/NewRecipeForm";
+import RecipeForm from "./components/RecipeForm";
 
 import {
   Switch,
@@ -68,29 +68,38 @@ class App extends React.Component {
           : ""
         }
         <Switch>
-          <Route path="/food/create_recipe">
+        <Route path="/recipes/recipe_form/:id">
             {
               this.state.user
               ? <>
-                <NewRecipeForm />
+                <RecipeForm token={this.state.token} user={this.state.user} />
                 </>
               : <Redirect to="/" />
-            }      
+            } 
           </Route>
-          <Route path="/food/recipe/:id">
+          <Route path="/recipes/recipe_form">
             {
               this.state.user
               ? <>
-                <RecipeDetailsContainer />
+                <RecipeForm token={this.state.token} user={this.state.user} />
                 </>
               : <Redirect to="/" />
             }
           </Route>
-          <Route path="/food">
+          <Route path="/recipes/:id">
             {
               this.state.user
               ? <>
-                <RecipeListContainer token={this.state.token} />
+                <RecipeDetailsContainer token={this.state.token} user={this.state.user} />
+                </>
+              : <Redirect to="/" />
+            }
+          </Route>
+          <Route path="/recipes">
+            {
+              this.state.user
+              ? <>
+                <RecipeListContainer token={this.state.token} user={this.state.user} />
                 </>
               : <Redirect to="/" />
             }
@@ -101,7 +110,7 @@ class App extends React.Component {
               ? <>
                 <UserActionContainer loginUser={this.loginUser} registerUser={this.registerUser} />
                 </>
-              : <Redirect to="/food" />
+              : <Redirect to="/recipes" />
             }
           </Route>
         </Switch>

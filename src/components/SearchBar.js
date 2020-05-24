@@ -1,6 +1,6 @@
 import React from "react";
 
-import {searchRecipes} from "../requests";
+import { searchRecipes } from "../requests";
 
 class SearchBar extends React.Component {
 
@@ -13,13 +13,8 @@ class SearchBar extends React.Component {
     }
 
     submitSearch = () => {
-
-        const recipeList = [{id: 10, title: "Noodles", description:"long, made of starch and water"}, {id: "A15", title: "Chicken", description:"a tasty bird"}];
-        this.props.updateRecipesList(recipeList);
-
-        return;
-
-        searchRecipes(this.state.search)
+        console.log("Search token", this.props.token);
+        searchRecipes(this.state.search, this.props.token)
         .then(res => {
             res && this.props.updateRecipesList(res.data);
         });

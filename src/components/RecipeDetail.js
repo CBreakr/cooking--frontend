@@ -15,7 +15,8 @@ const RecipeDetail = (props) => {
 
     // only run on mount
     useEffect(() => {
-        getSingleRecipe(params.id)
+        console.log("load detail");
+        getSingleRecipe(params.id, props.token)
         .then(res => {
             console.log(res);
             res && setRecipe(res.data);
@@ -36,7 +37,10 @@ const RecipeDetail = (props) => {
         }
         {
             recipe 
-            ? <span>We have a recipe</span>
+            ? <> 
+                <span>We have a recipe</span>
+                
+            </>
             : <span>No Recipe</span>
         }
         </>

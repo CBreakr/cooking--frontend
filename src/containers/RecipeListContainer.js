@@ -27,8 +27,8 @@ class RecipeListContainer extends React.Component {
         return (
             <>
             <div>RecipeListContainer</div>
-            <SearchBar updateRecipesList={this.updateRecipesList} />
-            <RecipeList recipes={this.state.recipes} />
+            <SearchBar updateRecipesList={this.updateRecipesList} token={this.props.token} />
+            <RecipeList recipes={this.state.recipes} user={this.props.user} />
             </>
         )
     }

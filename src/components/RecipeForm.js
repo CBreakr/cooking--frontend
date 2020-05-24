@@ -1,8 +1,10 @@
 import React from "react";
 
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
-class NewRecipeForm extends React.Component {
+import { createRecipe, updateRecipe } from "../requests";
+
+class RecipeForm extends React.Component {
 
     state = {
         id: null,
@@ -13,11 +15,36 @@ class NewRecipeForm extends React.Component {
         tags: []
     }
 
+    componentDidMount(){
+        console.log("FORM MOUNT", this.props);
+
+        console.log("FORM PATH PARAMS", this.props.match.params);
+
+        // if we have an id, attempt to load
+        // then check if the user matches
+        // if not, then redirect to RecipeList
+        // if yes, then fill in the form state
+    }
+
     submitRecipe = () => {
         const recipe = {...this.state};
+
         // do the submission
         // callback to switch the URL
-        this.props.history.push("/food");
+
+        let func = null;
+
+        if(recipe.id) {
+            func = updateRecipe;
+        }
+        else {
+            func = createRecipe;
+        }
+
+        func(recipe, this.props.token)
+        .then(res => {
+            this.props.history.push("/recipes");
+        });        
     }
 
     addIngredient = (ingredient) => {
@@ -73,6 +100,12 @@ class NewRecipeForm extends React.Component {
                 </ul>
                 <IngredientInput addIngredient={this.addIngredient} />
                 <br />
+                <label htmlFor="description">Description</label>
+                <textarea id="steps" name="steps"
+                    value={this.state.steps}
+                    onChange={this.onChange}
+                ></textarea>
+                <br />
                 <ul>
                     {
                         this.state.tags.map(tag => {
@@ -93,7 +126,7 @@ class NewRecipeForm extends React.Component {
     }
 }
 
-export default withRouter(NewRecipeForm);
+export default withRouter(RecipeForm);
 
 //
 //

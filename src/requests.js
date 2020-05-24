@@ -84,7 +84,7 @@ export const searchRecipes = (options, token) => {
 }
 
 function translateOptionsToQuerystring(options){
-    return "";
+    return `/${options}`;
 }
 
 //
