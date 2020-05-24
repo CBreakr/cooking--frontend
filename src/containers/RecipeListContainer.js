@@ -15,6 +15,7 @@ class RecipeListContainer extends React.Component {
         // get user's own recipes
         getUserCookbook(this.props.token)
         .then(res => {
+            console.log("cookbook", res.data);
             this.setState({recipes: res.data});
         });
     }
@@ -24,6 +25,9 @@ class RecipeListContainer extends React.Component {
     }
 
     render(){
+
+        console.log("recipe list props", this.props);
+
         return (
             <>
             <div>RecipeListContainer</div>

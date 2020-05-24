@@ -2,7 +2,7 @@ import React from "react";
 
 import { withRouter, Redirect } from 'react-router-dom';
 
-import { createRecipe, updateRecipe } from "../requests";
+import { createRecipe, updateRecipe, getSingleRecipe } from "../requests";
 
 class RecipeForm extends React.Component {
 
@@ -11,6 +11,7 @@ class RecipeForm extends React.Component {
         title: "",
         description: "",
         steps: "",
+        isPublic: false,
         ingredients: [],
         tags: []
     }
@@ -24,10 +25,34 @@ class RecipeForm extends React.Component {
         // then check if the user matches
         // if not, then redirect to RecipeList
         // if yes, then fill in the form state
+
+        const id = this.props.match.params.id;
+        if(id) {
+            getSingleRecipe(id, this.props.token)
+            .then(res => {
+                console.log("get recipe", res);
+                this.fillStateFromRecipe(res.data);
+            });
+        }
     }
 
-    submitRecipe = () => {
+    fillStateFromRecipe = (recipe) => {
+        const inner = recipe.recipe;
+        this.setState({
+            id: inner.id,
+            title: inner.title,
+            description: inner.description,
+            steps: inner.steps,
+            isPublic: inner.isPublic 
+        })
+    }
+
+    submitRecipe = (event) => {
+        event.preventDefault();
+
         const recipe = {...this.state};
+
+        console.log("recipe SUBMIT", recipe);
 
         // do the submission
         // callback to switch the URL
@@ -62,17 +87,26 @@ class RecipeForm extends React.Component {
     onChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
-        })
+        });
+    }
+
+    onCheckChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.checked
+        });
     }
 
     render(){
-
-        console.log("recipe form props", this.props);
-
         return (
             <>
             <div>NewRecipeForm</div>
             <form onSubmit={this.submitRecipe}>
+                <input type="checkbox" id="isPublic" name="isPublic"
+                    checked={this.state.isPublic}
+                    onChange={this.onCheckChange}
+                />
+                <br />
+                <label htmlFor="isPublic">Public</label>
                 <label htmlFor="title">Title</label>
                 <input type="text" id="title" name="title"
                     value={this.state.title}
@@ -100,7 +134,7 @@ class RecipeForm extends React.Component {
                 </ul>
                 <IngredientInput addIngredient={this.addIngredient} />
                 <br />
-                <label htmlFor="description">Description</label>
+                <label htmlFor="steps">Steps</label>
                 <textarea id="steps" name="steps"
                     value={this.state.steps}
                     onChange={this.onChange}

@@ -57,12 +57,13 @@ export const getSingleRecipe = (recipe_id, token) => {
 }
 
 export const createRecipe = (recipe, token) => {
-    return axios.post(`${baseURL}/recipes`, config(token))
+    return axios.post(`${baseURL}/recipes`, {recipe}, config(token))
     .catch(handleError);
 }
 
 export const updateRecipe = (recipe, token) => {
-    return axios.patch(`${baseURL}/recipes/${recipe.id}`, recipe, config(token))
+    console.log("UPDATE RECIPE", recipe);
+    return axios.patch(`${baseURL}/recipes/${recipe.id}`, {recipe}, config(token))
     .catch(handleError);
 }
 
