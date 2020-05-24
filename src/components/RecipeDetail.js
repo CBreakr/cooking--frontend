@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 
 import { useParams, useHistory } from 'react-router-dom';
 
 import { getSingleRecipe } from "../requests";
+
+import AuthContext from "../AuthContext";
 
 const RecipeDetail = (props) => {
     /*
@@ -14,17 +16,20 @@ const RecipeDetail = (props) => {
     const params = useParams();
     const history = useHistory();
 
+    const context = useContext(AuthContext)
+
     // only run on mount
     useEffect(() => {
         console.log("load detail", props.user);
-        if(props.token){
-            getSingleRecipe(params.id, props.token)
+        
+        if(context.token){
+            getSingleRecipe(params.id, context.token)
             .then(res => {
                 console.log("found recipe", res);
                 res && setRecipe(res.data);
             });
         }
-    }, [params.id, props.token]);
+    }, [params.id, context.token]);
 
     const [recipe, setRecipe] = useState(null);
 
@@ -50,10 +55,12 @@ const RecipeDetail = (props) => {
             recipe 
             ? <> 
                 <span>{recipe.recipe.title} - {recipe.recipe.user_id}</span>
-                <span>We have a recipe</span>
                 {
-                    recipe.recipe.user_id === props.user.id
-                    ? <button onClick={gotoEditForm}>Edit</button>
+                    recipe.recipe.user_id === context.user.id
+                    ? <>
+                        <br />
+                        <button onClick={gotoEditForm}>Edit</button>
+                    </>
                     : ""
                 }
             </>

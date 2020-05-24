@@ -1,10 +1,12 @@
 import React from "react";
 
-import { withRouter, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import { createRecipe, updateRecipe, getSingleRecipe } from "../requests";
 
-class RecipeForm extends React.Component {
+import AuthContext from "../AuthContext";
+
+class RecipeForm extends React.PureComponent {
 
     state = {
         id: null,
@@ -16,6 +18,8 @@ class RecipeForm extends React.Component {
         tags: []
     }
 
+    static contextType = AuthContext;
+
     componentDidMount(){
         console.log("FORM MOUNT", this.props);
 
@@ -26,12 +30,33 @@ class RecipeForm extends React.Component {
         // if not, then redirect to RecipeList
         // if yes, then fill in the form state
 
+        // this.context.user.id
+
         const id = this.props.match.params.id;
         if(id) {
-            getSingleRecipe(id, this.props.token)
+            getSingleRecipe(id, this.context.token)
             .then(res => {
                 console.log("get recipe", res);
-                this.fillStateFromRecipe(res.data);
+                if(res&& res.data && res.data.recipe.user_id === this.context.user.id){
+                    this.fillStateFromRecipe(res.data);
+                }
+                else{
+                    this.props.history.push("/recipes");
+                }
+            });
+        }
+    }
+
+    componentDidUpdate(){
+        if(this.props.new && this.state.id){
+            this.setState({
+                id: null,
+                title: "",
+                description: "",
+                steps: "",
+                isPublic: false,
+                ingredients: [],
+                tags: []
             });
         }
     }
@@ -66,7 +91,7 @@ class RecipeForm extends React.Component {
             func = createRecipe;
         }
 
-        func(recipe, this.props.token)
+        func(recipe, this.context.token)
         .then(res => {
             this.props.history.push("/recipes");
         });        
@@ -99,14 +124,14 @@ class RecipeForm extends React.Component {
     render(){
         return (
             <>
-            <div>NewRecipeForm</div>
+            <div>Recipe Form</div>
             <form onSubmit={this.submitRecipe}>
                 <input type="checkbox" id="isPublic" name="isPublic"
                     checked={this.state.isPublic}
                     onChange={this.onCheckChange}
                 />
-                <br />
                 <label htmlFor="isPublic">Public</label>
+                <br />
                 <label htmlFor="title">Title</label>
                 <input type="text" id="title" name="title"
                     value={this.state.title}

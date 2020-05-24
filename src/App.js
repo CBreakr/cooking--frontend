@@ -17,6 +17,8 @@ import {
 
 import * as requests from "./requests";
 
+import AuthContext from "./AuthContext";
+
 class App extends React.Component {
 
   state = {
@@ -61,36 +63,37 @@ class App extends React.Component {
 
   render(){
     return (
+      <AuthContext.Provider value={this.state}>
       <div>
         {
           this.state.user
-          ? <NavBar user={this.state.user} logout={this.logout} />
+          ? <NavBar logout={this.logout} />
           : ""
         }
         <Switch>
-        <Route path="/recipes/recipe_form/:id">
+          <Route path="/recipes/recipe_form/new">
             {
               this.state.user
               ? <>
-                <RecipeForm token={this.state.token} user={this.state.user} />
-                </>
-              : <Redirect to="/" />
-            } 
-          </Route>
-          <Route path="/recipes/recipe_form">
-            {
-              this.state.user
-              ? <>
-                <RecipeForm token={this.state.token} user={this.state.user} />
+                <RecipeForm new={true} />
                 </>
               : <Redirect to="/" />
             }
+          </Route>
+          <Route path="/recipes/recipe_form/:id">
+            {
+              this.state.user
+              ? <>
+                <RecipeForm />
+                </>
+              : <Redirect to="/" />
+            } 
           </Route>
           <Route path="/recipes/:id">
             {
               this.state.user
               ? <>
-                <RecipeDetailsContainer token={this.state.token} user={this.state.user} />
+                <RecipeDetailsContainer />
                 </>
               : <Redirect to="/" />
             }
@@ -99,7 +102,7 @@ class App extends React.Component {
             {
               this.state.user
               ? <>
-                <RecipeListContainer token={this.state.token} user={this.state.user} />
+                <RecipeListContainer />
                 </>
               : <Redirect to="/" />
             }
@@ -115,6 +118,7 @@ class App extends React.Component {
           </Route>
         </Switch>
       </div>
+      </AuthContext.Provider>
     );
   }
 }

@@ -7,8 +7,8 @@ class RecipeDetailContainer extends React.Component {
     render(){
         return (
             <>
-            <SearchBar updateRecipesList={this.updateRecipesList} token={this.props.token} />
-            <RecipeDetail token={this.props.token} user={this.props.user} />
+            <SearchBar updateRecipesList={this.updateRecipesList} />
+            <RecipeDetail token={this.props.token} />
             </>
         )
     }

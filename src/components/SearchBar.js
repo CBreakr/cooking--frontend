@@ -2,19 +2,23 @@ import React from "react";
 
 import { searchRecipes } from "../requests";
 
+import AuthContext from "../AuthContext";
+
 class SearchBar extends React.Component {
 
     state = {
         search: ""
     }
 
+    static contextType = AuthContext;
+
     changeInput = (event) => {
         this.setState({search: event.target.value});
     }
 
     submitSearch = () => {
-        console.log("Search token", this.props.token);
-        searchRecipes(this.state.search, this.props.token)
+        console.log("Search token", this.context.token);
+        searchRecipes(this.state.search, this.context.token)
         .then(res => {
             res && this.props.updateRecipesList(res.data);
         });
