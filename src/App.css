@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar {
+  margin: 4px;
+  padding: 4px;
+  border: 1px solid black;
+}
+
+.navbar a {
+  margin: auto 4px;
+}
+
+.username {
+  color: red;
+}
+
+.error {
+  color: red;
+}
