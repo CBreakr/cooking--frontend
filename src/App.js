@@ -41,7 +41,8 @@ class App extends React.Component {
     console.log("APP MOUNT LOCAL STORAGE")
     console.log(data);
 
-    if(data.name && data.name !== "null" && data.name !== "undefined"){
+    if(data.name && data.name !== "null" && data.name !== "undefined" &&
+     data.jwt && data.jwt !== "null" && data.jwt !== "undefined" ){
       console.log("we have an existing login");
       this.setCurrentUser(data, () => {
         if (url !== "/"){
@@ -49,6 +50,8 @@ class App extends React.Component {
           this.props.history.push(url);
         }
       });
+    } else {
+      this.logout()
     }
   }
 
