@@ -17,6 +17,7 @@ const config = (token) => {
 // register & login
 //
 
+
 export const registerUser = (user) => {
     const data = {
         name: user.name,
@@ -39,6 +40,8 @@ export const logoutUser = () => {
     return axios.post(`${baseURL}/users/logout`, null)
     .catch(handleError);
 }
+
+
 
 //
 // recipe
@@ -122,4 +125,6 @@ export const deleteComment = (comment_id, token) => {
     return axios.delete(`${baseURL}/comments/${comment_id}`, config(token))
     .catch(handleError);
 }
+
+
 
