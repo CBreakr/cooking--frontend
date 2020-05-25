@@ -9,6 +9,8 @@ import RecipeListContainer from "./containers/RecipeListContainer";
 import RecipeDetailsContainer from "./containers/RecipeDetailContainer";
 import RecipeForm from "./components/RecipeForm";
 
+import { withRouter } from "react-router-dom";
+
 import {
   Switch,
   Route,
@@ -24,6 +26,30 @@ class App extends React.Component {
   state = {
     user: null,
     token: null
+  }
+
+  componentDidMount(){
+    const data = {
+      id: parseInt(localStorage.getItem('__cooking_token_user_id__')),
+      name: localStorage.getItem('__cooking_token_user_name__'),
+      jwt: localStorage.getItem('__cooking_token_jwt__')
+    };
+
+    console.log("APP MOUNT url", this.props.location);
+    const url = this.props.location.pathname;
+    
+    console.log("APP MOUNT LOCAL STORAGE")
+    console.log(data);
+
+    if(data.name && data.name !== "null" && data.name !== "undefined"){
+      console.log("we have an existing login");
+      this.setCurrentUser(data, () => {
+        if (url !== "/"){
+          console.log("pathname", url);
+          this.props.history.push(url);
+        }
+      });
+    }
   }
 
   loginUser = (user) => {
@@ -44,11 +70,23 @@ class App extends React.Component {
     });
   }
 
-  setCurrentUser = (data) => {    
+  setCurrentUser = (data, callback) => {    
     if(data){
-      this.setState({user: {id: data.id, name: data.name}, token: data.jwt});
+
+      console.log(callback);
+      if(callback && typeof callback === "function"){
+        this.setState({user: {id: data.id, name: data.name}, token: data.jwt}, callback);
+      }
+      else{
+        this.setState({user: {id: data.id, name: data.name}, token: data.jwt});
+      }
+      
+      localStorage.setItem('__cooking_token_user_id__', data.id);
+      localStorage.setItem('__cooking_token_user_name__', data.name);
+      localStorage.setItem('__cooking_token_jwt__', data.jwt);
+
     }
-    else{
+    else{      
       this.setState({user: null, token: null});
     }
   }
@@ -58,6 +96,9 @@ class App extends React.Component {
     requests.logoutUser()
     .then(res => {
       this.setCurrentUser(null);
+      localStorage.removeItem('__cooking_token_user_id__');
+      localStorage.removeItem('__cooking_token_user_name__');
+      localStorage.removeItem('__cooking_token_jwt__');
     });
   }
 
@@ -123,4 +164,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);

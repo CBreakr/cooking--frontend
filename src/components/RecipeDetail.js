@@ -2,7 +2,7 @@ import React, {useEffect, useState, useContext} from "react";
 
 import { useParams, useHistory } from 'react-router-dom';
 
-import { getSingleRecipe } from "../requests";
+import { getSingleRecipe, deleteRecipe } from "../requests";
 
 import AuthContext from "../AuthContext";
 
@@ -16,11 +16,12 @@ const RecipeDetail = (props) => {
     const params = useParams();
     const history = useHistory();
 
-    const context = useContext(AuthContext)
+    const context = useContext(AuthContext);
+    console.log("DETAIL CONTEXT", context);
 
     // only run on mount
     useEffect(() => {
-        console.log("load detail", props.user);
+        console.log("load detail", context.user);
         
         if(context.token){
             getSingleRecipe(params.id, context.token)
@@ -37,6 +38,13 @@ const RecipeDetail = (props) => {
 
     const gotoEditForm = () => {
         history.push(`/recipes/recipe_form/${params.id}`);
+    }
+
+    const triggerDelete = () => {
+        deleteRecipe(params.id, context.token)
+        .then(res => {
+            history.push("/recipes");
+        })
     }
 
     if(recipe){
@@ -60,6 +68,8 @@ const RecipeDetail = (props) => {
                     ? <>
                         <br />
                         <button onClick={gotoEditForm}>Edit</button>
+                        <br />
+                        <button onClick={triggerDelete}>Delete</button>
                     </>
                     : ""
                 }
