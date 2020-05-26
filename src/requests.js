@@ -17,6 +17,7 @@ const config = (token) => {
 // register & login
 //
 
+
 export const registerUser = (user) => {
     const data = {
         name: user.name,
@@ -39,6 +40,8 @@ export const logoutUser = () => {
     return axios.post(`${baseURL}/users/logout`, null)
     .catch(handleError);
 }
+
+
 
 //
 // recipe
@@ -131,7 +134,7 @@ export const createComment = (comment, token) => {
 }
 
 export const updateComment = (comment, token) => {
-    return axios.patch(`${baseURL}/comments`, comment, config(token))
+    return axios.patch(`${baseURL}/comments/${comment.id}`, comment, config(token))
     .catch(handleError);
 }
 
@@ -157,4 +160,10 @@ export const getAllTags = (token) => {
     return axios.get(`${baseURL}/tags`, config(token))
     .catch(handleError);
 }
+
+//
+// follow
+// create, update, delete
+//
+
 

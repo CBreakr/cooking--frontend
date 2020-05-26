@@ -1,10 +1,11 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import { useParams, useHistory } from 'react-router-dom';
 
-import { getSingleRecipe, deleteRecipe } from "../requests";
+import { getSingleRecipe, deleteRecipe, createLike, deleteLike } from "../requests";
 
 import AuthContext from "../AuthContext";
+import CommentContainer from '../containers/CommentContainer'
 
 const RecipeDetail = (props) => {
     /*
@@ -22,13 +23,13 @@ const RecipeDetail = (props) => {
     // only run on mount
     useEffect(() => {
         console.log("load detail", context.user);
-        
-        if(context.token){
+
+        if (context.token) {
             getSingleRecipe(params.id, context.token)
-            .then(res => {
-                console.log("found recipe", res);
-                res && setRecipe(res.data);
-            });
+                .then(res => {
+                    console.log("found recipe", res);
+                    res && setRecipe(res.data);
+                });
         }
     }, [params.id, context.token]);
 
@@ -42,40 +43,92 @@ const RecipeDetail = (props) => {
 
     const triggerDelete = () => {
         deleteRecipe(params.id, context.token)
-        .then(res => {
-            history.push("/recipes");
-        })
+            .then(res => {
+                history.push("/recipes");
+            })
     }
 
-    if(recipe){
-        console.log("we have a recipe", recipe.recipe);
+    const checkLikes = () => {
+        let result = false
+        recipe.likes.forEach(likeObj => {
+            if (likeObj.user_id === context.user.id) {
+                result = true
+            }
+        })
+        return result
+    }
+
+    if (recipe) {
+        console.log("we have a recipe", recipe);
+    }
+
+    const addLike = () => {
+        let newLike = {"recipe_id": recipe.recipe.id, "user_id": context.user.id}
+        createLike(newLike, context.token)
+        .then(res => {
+            const copy = {...recipe};
+            copy.likes.push(res.data);
+            setRecipe(copy);
+        });
+    }
+
+    const removeLike = () => {
+        console.log('cancelling like')
+        let result = recipe.likes.find(likeObj => likeObj.user_id === context.user.id)
+
+        deleteLike(result.id, context.token)
+        .then(res => {
+            const copy = {...recipe};
+            const copyLikes = [];
+            copy.likes.forEach(like => {
+                if(like.id !== result.id){
+                    copyLikes.push(like);
+                }
+            });
+            copy.likes = copyLikes;
+            setRecipe(copy);
+        });
+    }
+    
+    const renderRecipe = () => {
+        return (
+            <div className='recipe-details'>
+                <img src={recipe.recipe.image} alt={recipe.recipe.title}></img>
+                <h2>{recipe.recipe.title}</h2>
+                {recipe.recipe.user_id === context.user.id
+                        ? 
+                        <>
+                            <button onClick={gotoEditForm}>Edit</button>
+                            <button onClick={triggerDelete}>Delete</button>
+                        </>
+                        : ""
+                }
+                <p>Created by {recipe.user.name} | {checkLikes()? <button onClick={removeLike}>♥</button>:<button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </p>
+                <p>{recipe.tags.map(tag => `#${tag.name}  `)}</p>
+                <p>{recipe.recipe.description}</p>
+                <h4>Ingredients:</h4>
+                <ul>
+                    {recipe.ingredients.map((ingredient, index) => <li key={index}>{ingredient.ingredient.name} {ingredient.quantity_number}{ingredient.measurement}</li>)}
+                </ul>
+                <p>
+                    <strong>Steps:</strong><br /><br />
+                    {recipe.recipe.steps}
+                </p>
+            </div>
+        )
     }
 
     return (
         <>
-        <div>Recipe Detail</div>
-        {
-            params.id.startsWith("A")
-            ? `from API: ${params.id}`
-            : `in our DB: ${params.id}`
-        }
-        {
-            recipe 
-            ? <> 
-                <span>{recipe.recipe.title} - {recipe.recipe.user_id}</span>
-                {
-                    recipe.recipe.user_id === context.user.id
+            {
+                recipe
                     ? <>
-                        <br />
-                        <button onClick={gotoEditForm}>Edit</button>
-                        <br />
-                        <button onClick={triggerDelete}>Delete</button>
+
+                        {renderRecipe()}
+                        <CommentContainer {...recipe}/>
                     </>
-                    : ""
-                }
-            </>
-            : <span>No Recipe</span>
-        }
+                    : <span>No Recipe</span>
+            }
         </>
     );
 }

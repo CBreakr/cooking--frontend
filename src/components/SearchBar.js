@@ -25,6 +25,7 @@ class SearchBar extends React.Component {
     }
 
     render(){
+        // console.log('Search state:', this.state)
         return (
             <div>
                 <label htmlFor="search">Search</label>

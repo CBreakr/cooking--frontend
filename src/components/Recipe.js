@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 class Recipe extends React.Component {
     render(){
+        const recipe_id = this.props.api_id ? `A${this.props.api_id}` : this.props.id
         return (
             <div>
                 Recipe: {this.props.title}
@@ -15,7 +16,8 @@ class Recipe extends React.Component {
                 {/*
                     I can also indicate whether this came from the API or not
                 */}
-                <Link to={`/recipes/${this.props.id}`}>Details</Link>
+
+                <Link to={`/recipes/${recipe_id}`}>Details</Link>
             </div>
         )
     }
