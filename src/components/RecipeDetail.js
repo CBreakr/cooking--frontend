@@ -89,15 +89,7 @@ const RecipeDetail = (props) => {
             setRecipe(copy);
         });
     }
-
-    const addComment = (event) => {
-        event.preventDefault();
-    }
-
-    const changeInputValue = () => {
-
-    }
-
+    
     const renderRecipe = () => {
         return (
             <div className='recipe-details'>

@@ -126,5 +126,9 @@ export const deleteComment = (comment_id, token) => {
     .catch(handleError);
 }
 
+//
+// follow
+// create, update, delete
+//
 
 
