@@ -65,7 +65,9 @@ const RecipeDetail = (props) => {
         let newLike = {"recipe_id": recipe.recipe.id, "user_id": context.user.id}
         createLike(newLike, context.token)
         .then(res => {
-
+            const copy = {...recipe};
+            copy.likes.push(res.data);
+            setRecipe(copy);
         });
     }
 
