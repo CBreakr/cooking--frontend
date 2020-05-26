@@ -46,8 +46,8 @@ export default class ImageUploader extends PureComponent {
     state = {
         imageURL: null,
         imageSrc: null,
-        loadedImageUrl: null,
-        changed: false
+        changed: false,
+        imageURLInput: ""
     }
 
     /*
@@ -140,6 +140,7 @@ export default class ImageUploader extends PureComponent {
     }
 
     updateImageURL = () => {
+        this.props.setImageUrl(this.state.imageURLInput);
         this.setState({
             imageURL: this.state.imageURLInput,
             imageSrc: null,
@@ -178,6 +179,8 @@ export default class ImageUploader extends PureComponent {
         //     djsConfig={djsConfig}
         // />
         // );
+
+        console.log("Image Uploader", this.state, this.props.loadedImageUrl);
 
         return (
         <Dropzone onDrop={this.onDrop}>

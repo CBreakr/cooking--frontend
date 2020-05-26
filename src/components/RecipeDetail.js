@@ -22,9 +22,9 @@ const RecipeDetail = (props) => {
 
     // only run on mount
     useEffect(() => {
-        console.log("load detail", context.user);
-
-        if (context.token) {
+        // console.log("load detail", context.user);
+        
+        if(context.token){
             getSingleRecipe(params.id, context.token)
                 .then(res => {
                     console.log("found recipe", res);

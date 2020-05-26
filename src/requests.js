@@ -79,7 +79,8 @@ export const createRecipe = (recipe, token) => {
 
 export const updateRecipe = (recipe, token) => {
     console.log("UPDATE RECIPE", recipe);
-    return axios.patch(`${baseURL}/recipes/${recipe.id}`, recipe, config(token))
+    // it's formdata now, so need to use .get(key)
+    return axios.patch(`${baseURL}/recipes/${recipe.get("id")}`, recipe, config(token))
     .catch(handleError);
 }
 
