@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 
 import { useParams, useHistory } from 'react-router-dom';
 
-import { getSingleRecipe, deleteRecipe } from "../requests";
+import { getSingleRecipe, deleteRecipe, createLike, deleteLike } from "../requests";
 
 import AuthContext from "../AuthContext";
 
@@ -50,7 +50,7 @@ const RecipeDetail = (props) => {
     const checkLikes = () => {
         let result = false
         recipe.likes.forEach(likeObj => {
-            if (likeObj.user_id === context.user.id){
+            if (likeObj.user_id === context.user.id) {
                 result = true
             }
         })
@@ -61,13 +61,39 @@ const RecipeDetail = (props) => {
         console.log("we have a recipe", recipe);
     }
 
+    const addLike = () => {
+        let newLike = {"recipe_id": recipe.recipe.id, "user_id": context.user.id}
+        createLike(newLike, context.token)
+    }
+
+    const removeLike = () => {
+        console.log('cancelling like')
+        let result = recipe.likes.find(likeObj => likeObj.user_id === context.user.id)
+        deleteLike(result.id, context.token)
+    }
+
+    const addComment = (event) => {
+        event.preventDefault();
+    }
+
+    const changeInputValue = () => {
+        
+    }
 
     const renderRecipe = () => {
         return (
             <div className='recipe-details'>
                 <img src={recipe.recipe.image} alt={recipe.recipe.title}></img>
                 <h2>{recipe.recipe.title}</h2>
-                <p>Created by {recipe.user.name} | {checkLikes() ? '♥︎' : '♡'} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </p>
+                {recipe.recipe.user_id === context.user.id
+                        ? 
+                        <>
+                            <button onClick={gotoEditForm}>Edit</button>
+                            <button onClick={triggerDelete}>Delete</button>
+                        </>
+                        : ""
+                }
+                <p>Created by {recipe.user.name} | {checkLikes()? <button onClick={removeLike}>♥</button>:<button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </p>
                 <p>{recipe.tags.map(tag => `#${tag.name}  `)}</p>
                 <p>{recipe.recipe.description}</p>
                 <h4>Ingredients:</h4>
@@ -89,25 +115,24 @@ const RecipeDetail = (props) => {
                         )
                     })}
                 </ul>
-                
+                <h4>Add a comment:</h4>
+                <form onSubmit={(event) => addComment(event)}> 
+                    <input value='' name='' placeholder='add a comment here' onChange={changeInputValue}></input>
+                    <input type="submit"></input>
+                </form>
+
             </div>
         )
     }
 
     return (
         <>
-            <div>Recipe Detail</div>
-            {
-                params.id.startsWith("A")
-                    ? `from API: ${params.id}`
-                    : `in our DB: ${params.id}`
-            }
             {
                 recipe
                     ? <>
                         {/* <span>{recipe.recipe.title} - {recipe.recipe.user_id}</span> */}
                         {renderRecipe()}
-                        {
+                        {/* {
                             recipe.recipe.user_id === context.user.id
                                 ? <>
                                     <br />
@@ -116,7 +141,7 @@ const RecipeDetail = (props) => {
                                     <button onClick={triggerDelete}>Delete</button>
                                 </>
                                 : ""
-                        }
+                        } */}
                     </>
                     : <span>No Recipe</span>
             }
