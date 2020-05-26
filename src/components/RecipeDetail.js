@@ -64,12 +64,27 @@ const RecipeDetail = (props) => {
     const addLike = () => {
         let newLike = {"recipe_id": recipe.recipe.id, "user_id": context.user.id}
         createLike(newLike, context.token)
+        .then(res => {
+
+        });
     }
 
     const removeLike = () => {
         console.log('cancelling like')
         let result = recipe.likes.find(likeObj => likeObj.user_id === context.user.id)
+
         deleteLike(result.id, context.token)
+        .then(res => {
+            const copy = {...recipe};
+            const copyLikes = [];
+            copy.likes.forEach(like => {
+                if(like.id !== result.id){
+                    copyLikes.push(like);
+                }
+            });
+            copy.likes = copyLikes;
+            setRecipe(copy);
+        });
     }
 
     const addComment = (event) => {
@@ -77,7 +92,7 @@ const RecipeDetail = (props) => {
     }
 
     const changeInputValue = () => {
-        
+
     }
 
     const renderRecipe = () => {
