@@ -44,6 +44,7 @@ class App extends React.Component {
     if(data.name && data.name !== "null" && data.name !== "undefined" &&
       data.jwt && data.jwt !== "null" && data.jwt !== "undefined" ){
       console.log("we have an existing login");
+      
       this.setCurrentUser(data, () => {
         if (url !== "/"){
           console.log("pathname", url);

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 
 import { useParams, useHistory } from 'react-router-dom';
 
-import { getSingleRecipe, deleteRecipe, createLike, deleteLike } from "../requests";
+import { getSingleRecipe, deleteRecipe, createLike, deleteLike, copyRecipe } from "../requests";
 
 import AuthContext from "../AuthContext";
 import CommentContainer from '../containers/CommentContainer'
@@ -89,6 +89,16 @@ const RecipeDetail = (props) => {
             setRecipe(copy);
         });
     }
+
+    const triggerCopyRecipe = () => {
+        console.log("COPY", recipe);
+        copyRecipe(recipe.recipe.id, context.token)
+        .then(res => {
+            if(res && res.data && res.data.id){
+                history.push(`/recipes/${res.data.id}`);
+            }
+        });
+    }
     
     const renderRecipe = () => {
         return (
@@ -101,14 +111,14 @@ const RecipeDetail = (props) => {
                             <button onClick={gotoEditForm}>Edit</button>
                             <button onClick={triggerDelete}>Delete</button>
                         </>
-                        : ""
+                        : <button onClick={triggerCopyRecipe}>Copy</button>
                 }
                 <p>Created by {recipe.user.name} | {checkLikes()? <button onClick={removeLike}>♥</button>:<button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </p>
                 <p>{recipe.tags.map(tag => `#${tag.name}  `)}</p>
                 <p>{recipe.recipe.description}</p>
                 <h4>Ingredients:</h4>
                 <ul>
-                    {recipe.ingredients.map((ingredient, index) => <li key={index}>{ingredient.ingredient.name} {ingredient.quantity_number}{ingredient.measurement}</li>)}
+                    {recipe.ingredients.map((ingredient, index) => <li key={index}>{ingredient.name} {ingredient.quantity_number}{ingredient.measurement}</li>)}
                 </ul>
                 <p>
                     <strong>Steps:</strong><br /><br />

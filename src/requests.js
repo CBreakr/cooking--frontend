@@ -109,6 +109,11 @@ function translateOptionsToQuerystring(options){
     return `/${options}`;
 }
 
+export const copyRecipe = (recipe_id, token) => {
+    return axios.post(`${baseURL}/recipes/${recipe_id}/copy`, {}, config(token))
+    .catch(handleError);
+}
+
 //
 // likes
 // create & delete

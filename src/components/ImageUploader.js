@@ -19,10 +19,6 @@ OK, our example is a little bit more complicated:
             - how do we remove the file?
                 - just remove it from the state?
                     - will this take care of the file in the control?
-
-
-
-
 */
 
 /*
