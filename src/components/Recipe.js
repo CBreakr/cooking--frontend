@@ -1,10 +1,18 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
-
+import { withRouter } from "react-router-dom";
 class Recipe extends React.Component {
+
+    recipeDetails = () => {
+        this.props.history.push(`/recipes/${this.translateID()}`)
+    }
+
+    translateID = () => {
+        return this.props.api_id ? `A${this.props.api_id}` : this.props.id
+    }
+    
     render(){
-        const recipe_id = this.props.api_id ? `A${this.props.api_id}` : this.props.id
+        // const recipe_id = this.props.api_id ? `A${this.props.api_id}` : this.props.id
         return (
             <div>
                 Recipe: {this.props.title}
@@ -16,11 +24,10 @@ class Recipe extends React.Component {
                 {/*
                     I can also indicate whether this came from the API or not
                 */}
-
-                <Link to={`/recipes/${recipe_id}`}>Details</Link>
+                <button onClick={this.recipeDetails}>Details</button>
             </div>
         )
     }
 }
 
-export default Recipe;
+export default withRouter(Recipe);
