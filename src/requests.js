@@ -56,16 +56,33 @@ export const getSingleRecipe = (recipe_id, token) => {
     .catch(handleError);
 }
 
+//
+//
+//
+
 export const createRecipe = (recipe, token) => {
-    return axios.post(`${baseURL}/recipes`, {recipe}, config(token))
+    // hmm, will this work as is?
+    return axios.post(`${baseURL}/recipes`, recipe, config(token))
     .catch(handleError);
+
+    // return axios({
+    //     method: 'post',
+    //     url: `${baseURL}/recipes`,
+    //     data: recipe,
+    //     // config: { headers: {'Content-Type': 'multipart/form-data' }}
+    // })
+    // .catch(handleError);
 }
 
 export const updateRecipe = (recipe, token) => {
     console.log("UPDATE RECIPE", recipe);
-    return axios.patch(`${baseURL}/recipes/${recipe.id}`, {recipe}, config(token))
+    return axios.patch(`${baseURL}/recipes/${recipe.id}`, recipe, config(token))
     .catch(handleError);
 }
+
+//
+//
+//
 
 export const deleteRecipe = (recipe_id, token) => {
     return axios.delete(`${baseURL}/recipes/${recipe_id}`, config(token))
@@ -120,6 +137,24 @@ export const updateComment = (comment, token) => {
 
 export const deleteComment = (comment_id, token) => {
     return axios.delete(`${baseURL}/comments/${comment_id}`, config(token))
+    .catch(handleError);
+}
+
+//
+// ingredients
+//
+
+export const getAllIngredients = (token) => {
+    return axios.get(`${baseURL}/ingredients`, config(token))
+    .catch(handleError);
+}
+
+//
+// tags
+//
+
+export const getAllTags = (token) => {
+    return axios.get(`${baseURL}/tags`, config(token))
     .catch(handleError);
 }
 

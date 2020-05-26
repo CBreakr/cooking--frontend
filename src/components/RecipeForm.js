@@ -2,7 +2,9 @@ import React from "react";
 
 import { withRouter } from 'react-router-dom';
 
-import { createRecipe, updateRecipe, getSingleRecipe } from "../requests";
+import ImageUploader from "./ImageUploader";
+
+import { createRecipe, updateRecipe, getSingleRecipe, getAllIngredients, getAllTags } from "../requests";
 
 import AuthContext from "../AuthContext";
 
@@ -10,12 +12,17 @@ class RecipeForm extends React.PureComponent {
 
     state = {
         id: null,
+        imageURL: null,
+        imageSrc: null,
+        loadedImageUrl: "",
+        changedImage: false,
         title: "",
         description: "",
         steps: "",
         isPublic: false,
         ingredients: [],
-        tags: []
+        tags: [],
+        editIngredient: null
     }
 
     static contextType = AuthContext;
@@ -48,9 +55,13 @@ class RecipeForm extends React.PureComponent {
     }
 
     componentDidUpdate(){
+        console.log("RECIPE FORM STATE", this.state);
         if(this.props.new && this.state.id){
             this.setState({
                 id: null,
+                imageURL: null,
+                imageSrc: null,
+                changedImage: false,
                 title: "",
                 description: "",
                 steps: "",
@@ -65,19 +76,46 @@ class RecipeForm extends React.PureComponent {
         const inner = recipe.recipe;
         this.setState({
             id: inner.id,
+            imageURL: null,
+            imageSrc: null,
+            loadedImageUrl: inner.image,
+            changedImage: false,
             title: inner.title,
             description: inner.description,
             steps: inner.steps,
-            isPublic: inner.isPublic 
-        })
+            isPublic: inner.isPublic,
+            ingredients: recipe.ingredients,
+            tags: recipe.tags
+        });
     }
 
     submitRecipe = (event) => {
         event.preventDefault();
 
+        /*
         const recipe = {...this.state};
 
         console.log("recipe SUBMIT", recipe);
+        */
+
+        console.log('Submitted!');
+
+        const recipe = {...this.state};
+        const formRecipeData = new FormData(event.target);
+
+        console.log("editable recipe");
+        console.log(recipe);
+        console.log("selected image");
+
+        formRecipeData.append("changedImage", recipe.changedImage);
+
+        if(recipe.changedImage !== null) {
+            formRecipeData.append('imageUrl', recipe.imageURL);
+            formRecipeData.append('imageSrc', recipe.imageSrc);
+        }
+
+        console.log("FORM DATA");
+        console.log(formRecipeData.get("changedImage"));
 
         // do the submission
         // callback to switch the URL
@@ -91,7 +129,7 @@ class RecipeForm extends React.PureComponent {
             func = createRecipe;
         }
 
-        func(recipe, this.context.token)
+        func(formRecipeData, this.context.token)
         .then(res => {
             this.props.history.push("/recipes");
         });        
@@ -99,7 +137,8 @@ class RecipeForm extends React.PureComponent {
 
     addIngredient = (ingredient) => {
         this.setState({
-            ingredients: [...this.state.ingredients, ingredient]
+            ingredients: [...this.state.ingredients, ingredient],
+            editIngredient: null
         });
     }
 
@@ -121,10 +160,67 @@ class RecipeForm extends React.PureComponent {
         });
     }
 
+    removeTag = (event) => {
+        const name = event.target.dataset.name;
+        const copy = [];
+        this.state.tags.forEach(tag => {
+            if(tag.name !== name){
+                copy.push(tag);
+            }
+        });
+        this.setState({tags: copy});
+    }
+
+    removeIngredient = (event) => {
+        const name = event.target.dataset.name;
+        const copy = [];
+        this.state.ingredients.forEach(ing => {
+            if(ing.name !== name){
+                copy.push(ing);
+            }
+        });
+        this.setState({ingredients: copy});
+    }
+
+    editIngredient = (event) => {
+        const name = event.target.dataset.name;
+        let match = null;
+        const copy = [];
+        this.state.ingredients.forEach(ing => {
+            if(ing.name !== name){
+                copy.push(ing);
+            }
+            else {
+                match = ing;
+            }
+        });
+        this.setState({ingredients: copy, editIngredient: match});
+    }
+
+    selectImage = imageSrc => this.setState({ imageSrc, imageUrl: null, changedImage:true });
+
+    setImageUrl = imageUrl => this.setState({ imageSrc: null, imageUrl, changedImage: true });
+
+    unselectImage = () => this.setState({ imageSrc: null, imageUrl: null, changedImage: true });
+
+    resetImage = () => this.setState({ imageSrc: null, imageUrl: null, changedImage: false });
+
     render(){
+
+        /*loadedImage={this.props.recipe.image}*/
+
         return (
             <>
             <div>Recipe Form</div>
+            <ImageUploader
+                    image={this.state.imageURL}
+                    
+                    setImageUrl={this.setImageUrl}
+                    selectImage={this.selectImage}
+                    unselectImage={this.unselectImage}
+                    resetImage={this.resetImage}
+            />
+            <hr/>
             <form onSubmit={this.submitRecipe}>
                 <input type="checkbox" id="isPublic" name="isPublic"
                     checked={this.state.isPublic}
@@ -144,20 +240,46 @@ class RecipeForm extends React.PureComponent {
                     onChange={this.onChange}
                 ></textarea>
                 <br />
-                <ul>
+                <table className="ingredient-table">
+                    <thead>
+                        <tr>
+                            <td>Quantity</td>
+                            <td>Unit</td>
+                            <td>Name</td>
+                            <td>Instruction</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
                     {
-                        this.state.ingredients.map(ing => {
+                        this.state.ingredients.map((ing, index) => {
+                            console.log("ingredient", ing);
                             return ( 
-                                <li>
-                                    {ing.quantity}
-                                    {ing.unit}
-                                    {ing.name}
-                                </li>
+                                <tr key={index}>
+                                    <td>{ing.quantity_number}</td>
+                                    <td>{ing.measurement}</td>
+                                    <td>{ing.name}</td>
+                                    <td>{ing.instruction}</td>
+                                    <td>
+                                        <button type="button" 
+                                            data-name={ing.name}
+                                            onClick={this.editIngredient}
+                                        >Edit</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" 
+                                            data-name={ing.name}
+                                            onClick={this.removeIngredient}
+                                        >X</button>
+                                    </td>
+                                </tr>
                             )
                         })
                     }
-                </ul>
-                <IngredientInput addIngredient={this.addIngredient} />
+                    </tbody>
+                </table>
+                <IngredientInput editIngredient={this.state.editIngredient} addIngredient={this.addIngredient} />
                 <br />
                 <label htmlFor="steps">Steps</label>
                 <textarea id="steps" name="steps"
@@ -167,10 +289,14 @@ class RecipeForm extends React.PureComponent {
                 <br />
                 <ul>
                     {
-                        this.state.tags.map(tag => {
+                        this.state.tags.map((tag, index) => {
                             return (
-                                <li>
+                                <li key={index}>
                                     {tag.name}
+                                    <button type="button" 
+                                        data-name={tag.name} 
+                                        onClick={this.removeTag}
+                                    >X</button>
                                 </li>
                             )
                         })
@@ -192,22 +318,42 @@ export default withRouter(RecipeForm);
 //
 class IngredientInput extends React.Component {
     state = {
-        quantity: "",
-        unit: "",
+        quantity_number: "",
+        measurement: "",
         name: "",
-        prep: "",
+        instruction: "",
         existingIngredients: []
     }
 
+    static contextType = AuthContext;
+
     componentDidMount(){
         // get the existing ingredients
-        this.setState({
-            existingIngredients: [
-                {id:1, name:"garlic"},
-                {id:2, name:"chicken"},
-                {id:3, name:"noodles"}
-            ]
-        });
+
+        getAllIngredients(this.context.token)
+        .then(res => {
+            this.setState({
+                existingIngredients: res.data
+            });
+        })
+    }
+
+    componentDidUpdate(prevProps){
+        console.log(this.props, prevProps);
+        if(this.props.editIngredient          
+            && ( 
+                !prevProps.editIngredient
+                || this.props.editIngredient.name !== prevProps.editIngredient.name
+            )
+        ){
+            // console.log("update ingredient", this.props, this.prevProps);
+            this.setState({
+                quantity_number: this.props.editIngredient.quantity_number,
+                measurement: this.props.editIngredient.measurement,
+                name: this.props.editIngredient.name,
+                instruction: this.props.editIngredient.instruction,
+            });
+        }
     }
 
     onChange = (event) => {
@@ -225,7 +371,6 @@ class IngredientInput extends React.Component {
     }
 
     createIngredientFromState = () => {
-
         let id = null;
         this.state.existingIngredients.forEach(ing => {
             if(ing.name === this.state.name){
@@ -235,35 +380,35 @@ class IngredientInput extends React.Component {
 
         return {
             id,
-            quantity: this.state.quantity,
-            unit: this.state.unit,
+            quantity_number: this.state.quantity_number,
+            measurement: this.state.measurement,
             name: this.state.name,
-            prep: this.state.prep
+            instruction: this.state.instruction
         }
     }
 
     setDefaultState = () => {
         this.setState({
             id: null,
-            quantity: "",
-            unit: "",
+            quantity_number: "",
+            measurement: "",
             name: "",
-            prep: ""
+            instruction: ""
         })
     }
 
     render(){
         return (
             <div>
-                <label htmlFor="quantity">Quantity</label>
-                <input type="number" id="quantity" name="quantity"
-                    value={this.state.quantity}
+                <label htmlFor="quantity_number">Quantity</label>
+                <input type="number" id="quantity_number" name="quantity_number"
+                    value={this.state.quantity_number}
                     onChange={this.onChange}
                 />
                 <br />
-                <label htmlFor="unit">Unit</label>
-                <input type="text" id="unit" name="unit" 
-                    value={this.state.unit}
+                <label htmlFor="measurement">Unit</label>
+                <input type="text" id="measurement" name="measurement" 
+                    value={this.state.measurement}
                     onChange={this.onChange}
                 />
                 <br />
@@ -281,6 +426,12 @@ class IngredientInput extends React.Component {
                     }
                 </datalist>
                 <br />
+                <label htmlFor="instruction">Instruction</label>
+                <input type="text" id="instruction" name="instruction" 
+                    value={this.state.instruction}
+                    onChange={this.onChange}
+                />
+                <br />
                 <button onClick={this.onSubmit}>Add Ingredient</button>
             </div>
         );
@@ -296,15 +447,18 @@ class TagInput extends React.Component {
         existingTags: []
     }
 
+    static contextType = AuthContext;
+
     componentDidMount(){
         // get the existing tags
-        this.setState({
-            existingTags: [
-                {id: 1, name: "dinner"},
-                {id: 2, name: "vegetarian"},
-                {id: 3, name: "seafood"}
-            ]
+
+        getAllTags(this.context.token)
+        .then(res => {
+            this.setState({
+                existingTags: res.data
+            });
         });
+
     }
 
     onChange = (event) => {
