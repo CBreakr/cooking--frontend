@@ -6,6 +6,7 @@ import { getSingleRecipe, deleteRecipe, createLike, deleteLike } from "../reques
 
 import AuthContext from "../AuthContext";
 import CommentContainer from '../containers/CommentContainer'
+import Follow from './Follow'
 
 const RecipeDetail = (props) => {
     /*
@@ -94,16 +95,17 @@ const RecipeDetail = (props) => {
         return (
             <div className='recipe-details'>
                 <img src={recipe.recipe.image} alt={recipe.recipe.title}></img>
-                <h2>{recipe.recipe.title}</h2>
+                <h3>{recipe.recipe.title} | {checkLikes()? <button onClick={removeLike}>♥</button>:<button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </h3>
+                <Follow {...recipe}/>
                 {recipe.recipe.user_id === context.user.id
                         ? 
                         <>
-                            <button onClick={gotoEditForm}>Edit</button>
-                            <button onClick={triggerDelete}>Delete</button>
+                            <button onClick={gotoEditForm}>Edit recipe</button>
+                            <button onClick={triggerDelete}>Delete recipe</button>
                         </>
                         : ""
                 }
-                <p>Created by {recipe.user.name} | {checkLikes()? <button onClick={removeLike}>♥</button>:<button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </p>
+                {/* <p>Created by {recipe.user.name} | {checkLikes()? <button onClick={removeLike}>♥</button>:<button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </p> */}
                 <p>{recipe.tags.map(tag => `#${tag.name}  `)}</p>
                 <p>{recipe.recipe.description}</p>
                 <h4>Ingredients:</h4>

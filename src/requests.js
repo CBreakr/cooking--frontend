@@ -130,5 +130,26 @@ export const deleteComment = (comment_id, token) => {
 // follow
 // create, update, delete
 //
+export const getAllFollows = (token) => {
+    return axios.get(`${baseURL}/followings`, config(token))
+    .catch(handleError);
+}
+
+export const getUserFollowings = (user_id, token) => {
+    return axios.get(`${baseURL}/users/${user_id}/following`, config(token))
+    .catch(handleError);
+}
+
+export const createFollow = (follow, token) => {
+    return axios.post(`${baseURL}/followings/new`, follow, config(token))
+    .catch(handleError);
+}
+
+export const unfollow = (follow_id, token) => {
+    return axios.delete(`${baseURL}/followings/${follow_id}`, config(token))
+    .catch(handleError);
+}
+
+
 
 
