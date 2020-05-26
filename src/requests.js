@@ -117,7 +117,7 @@ export const createComment = (comment, token) => {
 }
 
 export const updateComment = (comment, token) => {
-    return axios.patch(`${baseURL}/comments`, comment, config(token))
+    return axios.patch(`${baseURL}/comments/${comment.id}`, comment, config(token))
     .catch(handleError);
 }
 

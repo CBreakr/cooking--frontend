@@ -5,6 +5,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import { getSingleRecipe, deleteRecipe, createLike, deleteLike } from "../requests";
 
 import AuthContext from "../AuthContext";
+import CommentContainer from '../containers/CommentContainer'
 
 const RecipeDetail = (props) => {
     /*
@@ -121,23 +122,6 @@ const RecipeDetail = (props) => {
                     <strong>Steps:</strong><br /><br />
                     {recipe.recipe.steps}
                 </p>
-                <h4>Comments:</h4>
-                <ul>
-                    {recipe.comments.map(comment => {
-                        return (
-                            <>
-                                <p>{comment.user.name} said:</p>
-                                <li key={comment.comment.id}>{comment.comment.text}</li>
-                            </>
-                        )
-                    })}
-                </ul>
-                <h4>Add a comment:</h4>
-                <form onSubmit={(event) => addComment(event)}> 
-                    <input value='' name='' placeholder='add a comment here' onChange={changeInputValue}></input>
-                    <input type="submit"></input>
-                </form>
-
             </div>
         )
     }
@@ -147,18 +131,9 @@ const RecipeDetail = (props) => {
             {
                 recipe
                     ? <>
-                        {/* <span>{recipe.recipe.title} - {recipe.recipe.user_id}</span> */}
+
                         {renderRecipe()}
-                        {/* {
-                            recipe.recipe.user_id === context.user.id
-                                ? <>
-                                    <br />
-                                    <button onClick={gotoEditForm}>Edit</button>
-                                    <br />
-                                    <button onClick={triggerDelete}>Delete</button>
-                                </>
-                                : ""
-                        } */}
+                        <CommentContainer {...recipe}/>
                     </>
                     : <span>No Recipe</span>
             }
