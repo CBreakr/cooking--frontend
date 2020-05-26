@@ -75,9 +75,10 @@ export const deleteRecipe = (recipe_id, token) => {
     .catch(handleError);
 }
 
-export const socialRecipes = (token) => {
+// get "/recipes/:user_name/following_recipes", to: "recipes#following_recipes"
+export const socialRecipes = (username, token) => {
     // based on the current user session
-    return axios.get(`${baseURL}/recipes/social`, config(token))
+    return axios.get(`${baseURL}/recipes/${username}/following_recipes`, config(token))
     .catch(handleError);
 }
 
