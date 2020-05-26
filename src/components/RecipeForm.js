@@ -110,7 +110,7 @@ class RecipeForm extends React.PureComponent {
         formRecipeData.append("changedImage", recipe.changedImage);
 
         if(recipe.changedImage !== null) {
-            formRecipeData.append('imageUrl', recipe.imageURL);
+            formRecipeData.append('imageURL', recipe.imageURL);
             formRecipeData.append('imageSrc', recipe.imageSrc);
         }
 
@@ -199,7 +199,7 @@ class RecipeForm extends React.PureComponent {
 
     selectImage = imageSrc => this.setState({ imageSrc, imageUrl: null, changedImage:true });
 
-    setImageUrl = imageUrl => this.setState({ imageSrc: null, imageUrl, changedImage: true });
+    setImageUrl = imageURL => this.setState({ imageSrc: null, imageURL, changedImage: true });
 
     unselectImage = () => this.setState({ imageSrc: null, imageUrl: null, changedImage: true });
 
@@ -213,7 +213,7 @@ class RecipeForm extends React.PureComponent {
             <>
             <div>Recipe Form</div>
             <ImageUploader
-                    image={this.state.imageURL}
+                    loadedImageUrl={this.state.loadedImageUrl}
                     
                     setImageUrl={this.setImageUrl}
                     selectImage={this.selectImage}
@@ -339,7 +339,7 @@ class IngredientInput extends React.Component {
     }
 
     componentDidUpdate(prevProps){
-        console.log(this.props, prevProps);
+        // console.log(this.props, prevProps);
         if(this.props.editIngredient          
             && ( 
                 !prevProps.editIngredient
