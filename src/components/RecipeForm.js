@@ -108,6 +108,7 @@ class RecipeForm extends React.PureComponent {
         console.log("selected image");
 
         formRecipeData.append("changedImage", recipe.changedImage);
+        formRecipeData.append("id", recipe.id);
 
         if(recipe.changedImage !== null) {
             formRecipeData.append('imageURL', recipe.imageURL);

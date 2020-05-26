@@ -21,7 +21,7 @@ const RecipeDetail = (props) => {
 
     // only run on mount
     useEffect(() => {
-        console.log("load detail", context.user);
+        // console.log("load detail", context.user);
         
         if(context.token){
             getSingleRecipe(params.id, context.token)
@@ -73,6 +73,7 @@ const RecipeDetail = (props) => {
                     </>
                     : ""
                 }
+                <img src={recipe.recipe.image} alt="recipe-picture" />
             </>
             : <span>No Recipe</span>
         }
