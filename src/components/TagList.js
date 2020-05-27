@@ -1,26 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, useHistory } from 'react-router-dom';
-import { tagRecipes, showTag } from "../requests";
+import { useParams } from 'react-router-dom';
+import { tagRecipes, showTag  } from "../requests";
 import AuthContext from "../AuthContext";
+import TagRecipe from './TagRecipe';
 
 
 //give it a route "/:tag_name/recipes"
-//recipe list under this tag
-//when click 'detail' button, redirect to recipe details page
-
-// export const tagRecipes = (tag_name, token) => {
-//     return axios.get(`${baseURL}/recipes/by_tag/${tag_name}/following_recipes`, config(token))
-//     .catch(handleError);
-// }
-
-// export const showTag = (tag_id, token) => {
-//     return axios.get(`${baseURL}/tags/${tag_id}`, config(token))
-//     .catch(handleError);
-// }
-
 const TagList = () => {
     const params = useParams();
-    const history = useHistory();
     const context = useContext(AuthContext);
 
     console.log('params:', parseInt(params.tag_id))
@@ -34,7 +21,6 @@ const TagList = () => {
                 });
             showTag(parseInt(params.tag_id), context.token)
                 .then(res => {
-                    // let tag = res.data.name;
                     res && setTag(res.data)
                 })
         }
@@ -50,6 +36,10 @@ const TagList = () => {
         return (
             <div className='tag-recipes-list'>
                 <p>#{tag.name}</p>
+                {recipe
+                ? recipe.map((recipe, index) => <TagRecipe key={index} {...recipe}/>)
+                : null
+                }
             </div>
         )
     }
