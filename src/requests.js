@@ -92,6 +92,12 @@ function translateOptionsToQuerystring(options){
     return `/${options}`;
 }
 
+// get '/recipes/by_tag/:tag_id'
+export const tagRecipes = (tag_id, token) => {
+    return axios.get(`${baseURL}/recipes/by_tag/${tag_id}`, config(token))
+    .catch(handleError);
+}
+
 //
 // likes
 // create & delete
@@ -151,6 +157,13 @@ export const unfollow = (follow_id, token) => {
     .catch(handleError);
 }
 
-
+//
+// tag
+// show
+//
+export const showTag = (tag_id, token) => {
+    return axios.get(`${baseURL}/tags/${tag_id}`, config(token))
+    .catch(handleError);
+}
 
 

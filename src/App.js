@@ -8,6 +8,7 @@ import UserActionContainer from "./containers/UserActionContainer";
 import RecipeListContainer from "./containers/RecipeListContainer";
 import RecipeDetailsContainer from "./containers/RecipeDetailContainer";
 import RecipeForm from "./components/RecipeForm";
+import TagList from './components/TagList'
 
 import { withRouter } from "react-router-dom";
 
@@ -147,6 +148,15 @@ class App extends React.Component {
               this.state.user
               ? <>
                 <RecipeListContainer />
+                </>
+              : <Redirect to="/" />
+            }
+          </Route>
+          <Route path="/:tag_id/recipes">
+            {
+              this.state.user
+              ? <>
+                <TagList />
                 </>
               : <Redirect to="/" />
             }

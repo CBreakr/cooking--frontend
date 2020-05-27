@@ -7,6 +7,7 @@ import { getSingleRecipe, deleteRecipe, createLike, deleteLike } from "../reques
 import AuthContext from "../AuthContext";
 import CommentContainer from '../containers/CommentContainer'
 import Follow from './Follow'
+import Tag from './Tag'
 
 const RecipeDetail = (props) => {
     /*
@@ -105,8 +106,7 @@ const RecipeDetail = (props) => {
                         </>
                         : ""
                 }
-                {/* <p>Created by {recipe.user.name} | {checkLikes()? <button onClick={removeLike}>♥</button>:<button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </p> */}
-                <p>{recipe.tags.map(tag => `#${tag.name}  `)}</p>
+                <p>{recipe.tags.map(tag => <Tag key={tag.id} {...tag}/>)}</p>
                 <p>{recipe.recipe.description}</p>
                 <h4>Ingredients:</h4>
                 <ul>
