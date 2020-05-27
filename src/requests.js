@@ -114,9 +114,10 @@ export const deleteRecipe = (recipe_id, token) => {
     .catch(handleError);
 }
 
-export const socialRecipes = (token) => {
+// get "/recipes/:user_name/following_recipes", to: "recipes#following_recipes"
+export const socialRecipes = (username, token) => {
     // based on the current user session
-    return axios.get(`${baseURL}/recipes/social`, config(token))
+    return axios.get(`${baseURL}/recipes/${username}/following_recipes`, config(token))
     .catch(handleError);
 }
 
@@ -132,6 +133,12 @@ function translateOptionsToQuerystring(options){
 
 export const copyRecipe = (recipe_id, token) => {
     return axios.post(`${baseURL}/recipes/${recipe_id}/copy`, {}, config(token))
+    .catch(handleError);
+}
+
+// get '/recipes/by_tag/:tag_id'
+export const tagRecipes = (tag_id, token) => {
+    return axios.get(`${baseURL}/recipes/by_tag/${tag_id}`, config(token))
     .catch(handleError);
 }
 
@@ -192,5 +199,33 @@ export const getAllTags = (token) => {
 // follow
 // create, update, delete
 //
+export const getAllFollows = (token) => {
+    return axios.get(`${baseURL}/followings`, config(token))
+    .catch(handleError);
+}
+
+export const getUserFollowings = (user_id, token) => {
+    return axios.get(`${baseURL}/users/${user_id}/following`, config(token))
+    .catch(handleError);
+}
+
+export const createFollow = (follow, token) => {
+    return axios.post(`${baseURL}/followings/new`, follow, config(token))
+    .catch(handleError);
+}
+
+export const unfollow = (follow_id, token) => {
+    return axios.delete(`${baseURL}/followings/${follow_id}`, config(token))
+    .catch(handleError);
+}
+
+//
+// tag
+// show
+//
+export const showTag = (tag_id, token) => {
+    return axios.get(`${baseURL}/tags/${tag_id}`, config(token))
+    .catch(handleError);
+}
 
 
