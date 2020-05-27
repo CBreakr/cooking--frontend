@@ -70,7 +70,7 @@ export default class Follow extends React.Component {
     render() {
         return(
             <div>
-                <p>Created by {this.props.user.name}
+                <p className='subtitle'>Created by {this.props.user.name}
                 {this.state.selfRecipe
                 ?null
                 :this.showFollowButton()

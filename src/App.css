@@ -54,3 +54,9 @@
 .error {
   color: red;
 }
+
+img {
+  /* max-width:50%; */
+  width:auto;
+  max-height: 300px;
+}

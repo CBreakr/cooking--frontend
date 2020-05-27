@@ -65,13 +65,13 @@ const RecipeDetail = (props) => {
     }
 
     const addLike = () => {
-        let newLike = {"recipe_id": recipe.recipe.id, "user_id": context.user.id}
+        let newLike = { "recipe_id": recipe.recipe.id, "user_id": context.user.id }
         createLike(newLike, context.token)
-        .then(res => {
-            const copy = {...recipe};
-            copy.likes.push(res.data);
-            setRecipe(copy);
-        });
+            .then(res => {
+                const copy = { ...recipe };
+                copy.likes.push(res.data);
+                setRecipe(copy);
+            });
     }
 
     const removeLike = () => {
@@ -79,35 +79,42 @@ const RecipeDetail = (props) => {
         let result = recipe.likes.find(likeObj => likeObj.user_id === context.user.id)
 
         deleteLike(result.id, context.token)
-        .then(res => {
-            const copy = {...recipe};
-            const copyLikes = [];
-            copy.likes.forEach(like => {
-                if(like.id !== result.id){
-                    copyLikes.push(like);
-                }
+            .then(res => {
+                const copy = { ...recipe };
+                const copyLikes = [];
+                copy.likes.forEach(like => {
+                    if (like.id !== result.id) {
+                        copyLikes.push(like);
+                    }
+                });
+                copy.likes = copyLikes;
+                setRecipe(copy);
             });
-            copy.likes = copyLikes;
-            setRecipe(copy);
-        });
     }
-    
+
+
+
     const renderRecipe = () => {
         return (
             <div className='recipe-details'>
                 <img src={recipe.recipe.image} alt={recipe.recipe.title}></img>
-                <h3>{recipe.recipe.title} | {checkLikes()? <button onClick={removeLike}>♥</button>:<button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </h3>
-                <Follow {...recipe}/>
+                {/* <div className="card-image">
+                    <figure className="image is-5by4">
+                        <img src={recipe.recipe.image} alt="Recipe image" />
+                    </figure>
+                </div> */}
+                <h3 className='title is -3'>{recipe.recipe.title} | {checkLikes() ? <button onClick={removeLike}>♥</button> : <button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </h3>
+                <Follow {...recipe} />
                 {recipe.recipe.user_id === context.user.id
-                        ? 
-                        <>
-                            <button onClick={gotoEditForm}>Edit recipe</button>
-                            <button onClick={triggerDelete}>Delete recipe</button>
-                        </>
-                        : ""
+                    ?
+                    <>
+                        <button className='button is-link is-small' onClick={gotoEditForm}>Edit recipe</button>
+                        <button className='button is-link is-small' onClick={triggerDelete}>Delete recipe</button>
+                    </>
+                    : ""
                 }
-                <p>{recipe.tags.map(tag => <Tag key={tag.id} {...tag}/>)}</p>
-                <p>{recipe.recipe.description}</p>
+                <p>{recipe.tags.map(tag => <Tag key={tag.id} {...tag} />)}</p>
+                <p className='content is-medium'>{recipe.recipe.description}</p>
                 <h4>Ingredients:</h4>
                 <ul>
                     {recipe.ingredients.map((ingredient, index) => <li key={index}>{ingredient.ingredient.name} {ingredient.quantity_number}{ingredient.measurement}</li>)}
@@ -127,7 +134,7 @@ const RecipeDetail = (props) => {
                     ? <>
 
                         {renderRecipe()}
-                        <CommentContainer {...recipe}/>
+                        <CommentContainer {...recipe} />
                     </>
                     : <span>No Recipe</span>
             }

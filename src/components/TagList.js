@@ -35,7 +35,8 @@ const TagList = () => {
     const renderTagList = () => {
         return (
             <div className='tag-recipes-list'>
-                <p>#{tag.name}</p>
+                {/* <p>#{tag.name}</p> */}
+                <span className='tag is-warning is-large'>#{tag.name}</span>
                 {recipe
                 ? recipe.map((recipe, index) => <TagRecipe key={index} {...recipe}/>)
                 : null

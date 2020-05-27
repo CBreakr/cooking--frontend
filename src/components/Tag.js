@@ -16,7 +16,7 @@ class Tag extends React.Component{
         console.log('Tag container:', this.props)
         return(
             <>
-                <span onClick={this.clickTag}> #{this.props.name}  </span>
+                <span className='button is-danger is-inverted' onClick={this.clickTag}> #{this.props.name}  </span>
             </>
         )
     }

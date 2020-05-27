@@ -22,7 +22,7 @@ export default class Comment extends React.Component {
         return (
             <>
                 <button onClick={this.editComment}>edit</button>
-                <button onClick={() => this.props.delete(this.state.comment.id)}>delete</button>
+                <button className='delete' onClick={() => this.props.delete(this.state.comment.id)}>delete</button>
             </>
         )
     }
