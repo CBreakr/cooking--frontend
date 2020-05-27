@@ -7,8 +7,8 @@ class UserActionContainer extends React.Component {
     render(){
         return (
             <>
-            <LoginForm loginUser={this.props.loginUser} />
-            <SignupForm registerUser={this.props.registerUser} />
+            <LoginForm setCurrentUser={this.props.setCurrentUser} />
+            <SignupForm setCurrentUser={this.props.setCurrentUser} />
             </>
         )
     }

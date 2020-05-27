@@ -94,6 +94,7 @@ const RecipeDetail = (props) => {
         console.log("COPY", recipe);
         copyRecipe(recipe.recipe.id, context.token)
         .then(res => {
+            console.log("COPY COMPLETE", res);
             if(res && res.data && res.data.id){
                 history.push(`/recipes/${res.data.id}`);
             }
@@ -137,7 +138,7 @@ const RecipeDetail = (props) => {
                         {renderRecipe()}
                         <CommentContainer {...recipe}/>
                     </>
-                    : <span>No Recipe</span>
+                    : <span>loading...</span>
             }
         </>
     );

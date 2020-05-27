@@ -55,7 +55,7 @@ class RecipeForm extends React.PureComponent {
     }
 
     componentDidUpdate(){
-        console.log("RECIPE FORM STATE", this.state);
+        // console.log("RECIPE FORM STATE", this.state);
         if(this.props.new && this.state.id){
             this.setState({
                 id: null,

@@ -17,23 +17,44 @@ const config = (token) => {
 // register & login
 //
 
+export const ping = (token, callback) => {
+    console.log("trigger ping");
+    return axios.get(`${baseURL}/users/ping`, config(token))
+    .catch((err) => {
+        handleError();
+        if(callback && typeof callback === "function"){
+            callback(err);
+        }
+    });
+}
 
-export const registerUser = (user) => {
+
+export const registerUser = (user, callback) => {
     const data = {
         name: user.name,
         password: user.password
     }
     return axios.post(`${baseURL}/users/register`, {user: data})
-    .catch(handleError);
+    .catch((err) => {
+        handleError();
+        if(callback && typeof callback === "function"){
+            callback(err);
+        }
+    });
 }
 
-export const loginUser = (user) => {
+export const loginUser = (user, callback) => {
     const data = {
         name: user.name,
         password: user.password
     }
     return axios.post(`${baseURL}/users/login`, {user: data})
-    .catch(handleError);
+    .catch((err) => {
+        handleError();
+        if(callback && typeof callback === "function"){
+            callback(err);
+        }
+    });
 }
 
 export const logoutUser = () => {

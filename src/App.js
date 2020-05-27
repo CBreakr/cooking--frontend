@@ -25,7 +25,10 @@ class App extends React.Component {
 
   state = {
     user: null,
-    token: null
+    token: null,
+    loginMessage: "",
+    registerMessage: "",
+    loaded: false
   }
 
   componentDidMount(){
@@ -44,11 +47,20 @@ class App extends React.Component {
     if(data.name && data.name !== "null" && data.name !== "undefined" &&
       data.jwt && data.jwt !== "null" && data.jwt !== "undefined" ){
       console.log("we have an existing login");
-      
-      this.setCurrentUser(data, () => {
-        if (url !== "/"){
-          console.log("pathname", url);
-          this.props.history.push(url);
+
+      requests.ping(data.jwt, () => {
+        console.log("Error on ping")
+        this.logout();
+      })
+      .then(res => {
+        if(res){
+          console.log("set URL")
+          this.setCurrentUser(data, () => {
+            if (url !== "/"){
+              console.log("pathname", url);
+              this.props.history.push(url);
+            }
+          });
         }
       });
     } else {
@@ -56,27 +68,11 @@ class App extends React.Component {
     }
   }
 
-  loginUser = (user) => {
-    console.log("LOGIN");
-    requests.loginUser(user)
-    .then(res => {
-      console.log("LOGIN RES", res);
-      this.setCurrentUser(res.data);
-    });
-  }
-
-  registerUser = (user) => {
-    console.log("REGISTER");
-    requests.registerUser(user)
-    .then(res => {
-      console.log("REGISTER RES", res);
-      this.setCurrentUser(res.data);
-    });
-  }
-
   setCurrentUser = (data, callback) => {    
-    if(data){
 
+    this.setState({loaded: true});
+
+    if(data){
       console.log(callback);
       if(callback && typeof callback === "function"){
         this.setState({user: {id: data.id, name: data.name}, token: data.jwt}, callback);
@@ -107,62 +103,68 @@ class App extends React.Component {
   }
 
   render(){
+    console.log("APP STATE", this.state);
     return (
       <AuthContext.Provider value={this.state}>
-      <div>
-        {
-          this.state.user
-          ? <NavBar logout={this.logout} />
-          : ""
-        }
-        <Switch>
-          <Route path="/recipes/recipe_form/new">
-            {
-              this.state.user
-              ? <>
-                <RecipeForm new={true} />
-                </>
-              : <Redirect to="/" />
-            }
-          </Route>
-          <Route path="/recipes/recipe_form/:id">
-            {
-              this.state.user
-              ? <>
-                <RecipeForm />
-                </>
-              : <Redirect to="/" />
-            } 
-          </Route>
-          <Route path="/recipes/:id">
-            {
-              this.state.user
-              ? <>
-                <RecipeDetailsContainer />
-                </>
-              : <Redirect to="/" />
-            }
-          </Route>
-          <Route path="/recipes">
-            {
-              this.state.user
-              ? <>
-                <RecipeListContainer />
-                </>
-              : <Redirect to="/" />
-            }
-          </Route>
-          <Route path="/">
-            {
-              !this.state.user
-              ? <>
-                <UserActionContainer loginUser={this.loginUser} registerUser={this.registerUser} />
-                </>
-              : <Redirect to="/recipes" />
-            }
-          </Route>
-        </Switch>
-      </div>
+      {this.state.loaded
+        ? (
+        <div>
+          {
+            this.state.user
+            ? <NavBar logout={this.logout} />
+            : ""
+          }
+          <Switch>
+            <Route path="/recipes/recipe_form/new">
+              {
+                this.state.user
+                ? <>
+                  <RecipeForm new={true} />
+                  </>
+                : <Redirect to="/" />
+              }
+            </Route>
+            <Route path="/recipes/recipe_form/:id">
+              {
+                this.state.user
+                ? <>
+                  <RecipeForm />
+                  </>
+                : <Redirect to="/" />
+              } 
+            </Route>
+            <Route path="/recipes/:id">
+              {
+                this.state.user
+                ? <>
+                  <RecipeDetailsContainer />
+                  </>
+                : <Redirect to="/" />
+              }
+            </Route>
+            <Route path="/recipes">
+              {
+                this.state.user
+                ? <>
+                  <RecipeListContainer />
+                  </>
+                : <Redirect to="/" />
+              }
+            </Route>
+            <Route path="/">
+              {
+                !this.state.user
+                ? <>
+                  <UserActionContainer setCurrentUser={this.setCurrentUser} />
+                  </>
+                : <Redirect to="/recipes" />
+              }
+            </Route>
+          </Switch>
+        </div>
+        )
+        : <span>loading</span>
+      }
       </AuthContext.Provider>
     );
   }

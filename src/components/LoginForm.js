@@ -1,5 +1,7 @@
 import React from "react";
 
+import { loginUser } from "../requests";
+
 class LoginForm extends React.Component {
 
     state = {
@@ -20,11 +22,25 @@ class LoginForm extends React.Component {
         if(this.state.name && this.state.password){
             // if correct:
             const user = {...this.state};
-            this.props.loginUser(user);
+            this.loginUser(user);
         }
         else{
             this.setState({error: "invalid username/password combination"});
         }
+    }
+
+    loginUser = (user) => {
+        console.log("LOGIN");
+        loginUser(user, (err) => {
+            console.log("ERROR LOGGING IN");
+            this.setState({error: "invalid username/password combination"});
+        })
+        .then(res => {
+            if(res){
+                console.log("LOGIN RES", res);
+                this.props.setCurrentUser(res.data);
+            }
+        });
     }
 
     render(){

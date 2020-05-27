@@ -1,5 +1,7 @@
 import React from "react";
 
+import { registerUser } from "../requests";
+
 class SignupForm extends React.Component {
 
     state = {
@@ -24,7 +26,7 @@ class SignupForm extends React.Component {
                 // call to register the user
     
                 const user = {...this.state};
-                this.props.registerUser(user);
+                this.registerUser(user);
             }
             else{
                 this.setState({error: "passwords do not match"});
@@ -33,6 +35,20 @@ class SignupForm extends React.Component {
         else{
             this.setState({error: "username and password required"});
         }
+    }
+
+    registerUser = (user) => {
+        console.log("REGISTER");
+        registerUser(user, (err) => {
+            console.log("ERROR REGISTERING");
+            this.setState({error: "could not register this user"});
+        })
+        .then(res => {
+            if(res){
+                console.log("REGISTER RES", res);
+                this.props.setCurrentUser(res.data);
+            }
+        });
     }
 
     render(){
