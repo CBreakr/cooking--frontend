@@ -2,6 +2,7 @@ import React from "react";
 import { getSingleRecipe } from "../requests";
 import { withRouter } from "react-router-dom";
 import AuthContext from "../AuthContext";
+
 class Recipe extends React.Component {
 
     state = {
@@ -11,10 +12,17 @@ class Recipe extends React.Component {
     static contextType = AuthContext;
 
     componentDidMount() {
-        getSingleRecipe(this.props.id, this.context.token)
-        .then(res => this.setState({
-            likes: res.data.likes.length
-        }))
+        if(this.props.id){
+            getSingleRecipe(this.props.id, this.context.token)
+            .then(res => {
+                console.log("INDIVIDUAL RECIPE", res);
+                if(res && res.data){
+                    this.setState({
+                        likes: res.data.likes ? res.data.likes.length : 0
+                    });
+                }
+            });
+        }
     }
 
     recipeDetails = () => {
@@ -26,6 +34,7 @@ class Recipe extends React.Component {
     }
 
     render(){
+        console.log("RECIPE PROPS", this.props);
         return (
             <div>
                 {this.props.user.name}: {this.props.title} | 

@@ -22,16 +22,16 @@ class RecipeListContainer extends React.Component {
 
         console.log("CONTEXT", this.context);
 
-        getUserCookbook(this.context.token)
-        .then(res => {
-            console.log("cookbook", res.data);
-            this.setState({own_recipes: res.data});
-        });
-    
+        // getUserCookbook(this.context.token)
+        // .then(res => {
+        //     console.log("cookbook", res.data);
+        //     this.setState({own_recipes: res.data});
+        // });
+
         //get social recipes
         socialRecipes(this.context.user.name, this.context.token)
         .then(res => this.setState({
-            following_recipes: res.data
+            recipes: res.data
         }))
         
     }
@@ -43,7 +43,8 @@ class RecipeListContainer extends React.Component {
     showSearchResult = () => {
         return(
             <>
-                <h4>Search Result:</h4>
+            <br/>
+            <h3 class="title is-4">Recipes</h3>
                 <RecipeList recipes={this.state.recipes} />
             </>
         )
@@ -55,17 +56,21 @@ class RecipeListContainer extends React.Component {
         console.log("recipe list props", this.props);
         return (
             <>
-            <div>RecipeListContainer</div>
             <SearchBar updateRecipesList={this.updateRecipesList} />
             {this.state.recipes.length > 0
             ? this.showSearchResult()
             : null
             }
 
-            <h4>Following: </h4>
-            <RecipeList recipes={this.state.following_recipes} />
-            <h4>My recipes: </h4>
-            <RecipeList recipes={this.state.own_recipes} />
+            {
+                /*
+                <h4>Following: </h4>
+                <RecipeList recipes={this.state.following_recipes} />
+                <h4>My recipes: </h4>
+                <RecipeList recipes={this.state.own_recipes} />
+                */
+            }
+            
             </>
         )
     }

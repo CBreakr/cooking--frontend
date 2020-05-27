@@ -20,6 +20,7 @@ class SearchBar extends React.Component {
         console.log("Search token", this.context.token);
         searchRecipes(this.state.search, this.context.token)
         .then(res => {
+            console.log("SEARCH RESULTS", res.data);
             res && this.props.updateRecipesList(res.data);
         });
     }
