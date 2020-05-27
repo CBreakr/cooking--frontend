@@ -9,6 +9,7 @@ import RecipeListContainer from "./containers/RecipeListContainer";
 import RecipeDetailsContainer from "./containers/RecipeDetailContainer";
 import RecipeForm from "./components/RecipeForm";
 import TagList from './components/TagList'
+import CookbookContainer from './containers/CookbookContainer'
 
 import { withRouter } from "react-router-dom";
 
@@ -148,6 +149,15 @@ class App extends React.Component {
                 this.state.user
                 ? <>
                   <RecipeListContainer />
+                  </>
+                : <Redirect to="/" />
+              }
+            </Route>
+            <Route path="/cookbook">
+              {
+                this.state.user
+                ? <>
+                  <CookbookContainer />
                   </>
                 : <Redirect to="/" />
               }
