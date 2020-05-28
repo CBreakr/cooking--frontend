@@ -54,7 +54,7 @@ class SignupForm extends React.Component {
     render() {
         return (
             <div id='box2'>
-                <h3 id='form-grid' className='title is-3 register'>Register</h3>
+                <h3 className='title is-3'>Register</h3>
                 {
                     this.state.error
                         ? <div className="error">{this.state.error}</div>

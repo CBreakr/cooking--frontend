@@ -44,7 +44,7 @@ class LoginForm extends React.Component {
     }
 
     render() {
-        return (
+        return (            
             <div id='box1'>
                 <h3 className='title is-3'>Login</h3>
                 {

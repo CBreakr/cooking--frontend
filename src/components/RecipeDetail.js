@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-
 import { useParams, useHistory } from 'react-router-dom';
-
 import { getSingleRecipe, deleteRecipe, createLike, deleteLike, copyRecipe } from "../requests";
-
 import AuthContext from "../AuthContext";
 import CommentContainer from '../containers/CommentContainer'
 import Follow from './Follow'
 import Tag from './Tag'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import 'bulma-spacing'
 
 const RecipeDetail = (props) => {
     /*
@@ -112,20 +112,26 @@ const RecipeDetail = (props) => {
                         <img src={recipe.recipe.image} alt="Recipe image" />
                     </figure>
                 </div> */}
-                <h3 className='title is -3'>{recipe.recipe.title}
-                <br />
-                {checkLikes() ? <button onClick={removeLike}>♥</button> : <button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </h3>
+                <h3 className='title is-3'>{recipe.recipe.title}  {checkLikes() ? <button className='button is-white' onClick={removeLike}><FontAwesomeIcon color='red' icon={faHeart} /></button> 
+                : <button className='button is-white' onClick={addLike}><FontAwesomeIcon color='grey' icon={faHeart} /></button>}</h3>
                 <Follow {...recipe} />
                 {recipe.recipe.user_id === context.user.id
                         ? 
-                        <>
-                            <button className='button is-link is-small' onClick={gotoEditForm}>Edit</button>
-                            <button className='button is-link is-small' onClick={triggerDelete}>Delete</button>
+                        <>  
+                            <div className='recipe-edit'>
+                                <button className='button is-info is-small is-rounded' onClick={gotoEditForm}>Edit</button>
+                            </div>
+                            <div className='recipe-delete'>
+                                <button className='button is-info is-small is-rounded' onClick={triggerDelete}>Delete</button>
+                            </div>
                         </>
-                        : <button onClick={triggerCopyRecipe}>Copy</button>
+                        : <button className='button is-primary is-small is-outlined' onClick={triggerCopyRecipe}>Copy</button>
                 }
                 <p>{recipe.tags.map(tag => <Tag key={tag.id} {...tag} />)}</p>
-                <p className='content is-medium'>{recipe.recipe.description}</p>
+
+                <div className="box">
+                    <p className='content is-medium'>{recipe.recipe.description}</p>
+                </div>
                 <h4>Ingredients:</h4>
                 <table className="ingredient-table">
                     <thead>
@@ -151,10 +157,8 @@ const RecipeDetail = (props) => {
                     </tbody>
                 </table>
                 
-                <p>
-                    <strong>Steps:</strong><br /><br />
-                    {recipe.recipe.steps}
-                </p>
+                <p className='subtitle is-4'>Steps</p>
+                <p>{recipe.recipe.steps}</p>
             </div>
         )
     }
@@ -164,7 +168,6 @@ const RecipeDetail = (props) => {
             {
                 recipe
                     ? <>
-
                         {renderRecipe()}
                         <CommentContainer {...recipe} />
                     </>

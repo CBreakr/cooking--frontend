@@ -3,6 +3,8 @@ import { getUserCookbook, getLikedRecipe } from "../requests";
 import { withRouter } from "react-router-dom";
 import AuthContext from "../AuthContext";
 import Recipe from '../components/Recipe'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faHeart } from '@fortawesome/free-solid-svg-icons'
 
 class CookbookContainer extends React.Component {
 
@@ -15,20 +17,20 @@ class CookbookContainer extends React.Component {
 
     componentDidMount() {
         getUserCookbook(this.context.token)
-        .then(res => this.setState({
-            cookbook: res.data
-        }));
+            .then(res => this.setState({
+                cookbook: res.data
+            }));
 
         getLikedRecipe(this.context.user.id, this.context.token)
-        .then(res => this.setState({
-            likedRecipes: res.data
-        }))
+            .then(res => this.setState({
+                likedRecipes: res.data
+            }))
     }
 
     renderCookbook = () => {
-        return(
+        return (
             <div>
-                {this.state.cookbook.map(recipe => <Recipe key={recipe.id} {...recipe}/>)}
+                {this.state.cookbook.map(recipe => <Recipe key={recipe.id} {...recipe} />)}
             </div>
         )
     }
@@ -40,34 +42,37 @@ class CookbookContainer extends React.Component {
     }
 
     renderLiked = () => {
-        return(
+        return (
             <div>
                 {this.state.likedRecipes.map(object => {
-                    return(
-                    <div key={object.likes[0].id}>
-                        {object.user.name}: {object.recipe.title} | 
-                        {object.likes.length} {object.likes.length > 1 ? 'likes': 'like'} |
-                        <button onClick={() => this.goToDetails(object.recipe.id, object.recipe.api_id)}>Details</button>
-                    </div>)
+                    return (
+                        <div className="box" key={object.likes[0].id}>
+                            <h1 className="title is-4"><FontAwesomeIcon color='orange' icon={faUser} />{object.user.name}</h1>
+                            <p>{object.recipe.title} <FontAwesomeIcon color='red' icon={faHeart} />{object.likes.length} {object.likes.length > 1 ? 'likes': 'like'}</p>
+                            <p>
+                                <button className='button is-danger is-small' onClick={() => this.goToDetails(object.recipe.id, object.recipe.api_id)}>Details</button>
+                            </p>
+                        </div>
+                    )
                 })}
             </div>
         )
     }
 
-    render(){
+    render() {
         console.log('User cookbook:', this.state.cookbook)
         console.log('User liked:', this.state.likedRecipes)
-        return(
+        return (
             <div>
-                <h4 className='title is-4'>My cookbook</h4>
+                <h3 className='title is-3'>My cookbook</h3>
                 {this.state.cookbook.length > 0
-                ? this.renderCookbook()
-                : <h6 className='subtitle'>Start creating your first recipe</h6>
+                    ? this.renderCookbook()
+                    : <h6 className='subtitle'>Start creating your first recipe</h6>
                 }
-                <h4 className='title is-4'>Liked recipe</h4>
+                <h3 className='title is-3 has-margin-top-100px'><br/>Liked recipe</h3>
                 {this.state.likedRecipes.length > 0
-                ? this.renderLiked()
-                : <h6 className='subtitle'>No liked recipe</h6>
+                    ? this.renderLiked()
+                    : <h6 className='subtitle'>No liked recipe</h6>
                 }
             </div>
         )

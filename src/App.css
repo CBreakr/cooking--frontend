@@ -44,7 +44,7 @@ body {
 .navbar {
   /* margin: 4px; */
   padding: 4px;
-  background-color: aquamarine;
+  background-color: rgb(209, 136, 136);
   /* border: 1px solid black; */
 }
 
@@ -102,21 +102,19 @@ img {
     1fr 4fr 1fr;
 }
 
-.grid * { grid-column: 2/3;}
+.grid * { grid-column: 2/4;}
 .grid-xl { grid-column: xl;}
 
-.register{
-  /* margin-top: 16px; */
-}
 
 #box1 {
-  margin-left: auto;
+  margin-left: 300px;
   height: 300px;
   width: 250px;
   float: left;
 }
 
 #box2 {
+  margin-right: 300px;
   height: 300px;
   width: 250px;
   float: right;
@@ -143,4 +141,13 @@ button:hover {
 
 .dropzone:hover {
   background-color: aquamarine;
+}
+
+.recipe-edit {
+  float: left;
+}
+
+.recipe-delete {
+  margin-right: 440px;
+  float: right;
 }

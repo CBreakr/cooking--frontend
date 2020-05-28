@@ -33,8 +33,8 @@ export default class Follow extends React.Component {
     showFollowButton = () => {
         return (
             this.state.isFollowing
-            ?<button onClick={this.unfollowUser}>unfollow</button>
-            :<button onClick={this.followUser}>+follow</button>
+            ?<button className='button is-info is-small is-rounded' onClick={this.unfollowUser}>unfollow</button>
+            :<button className='button is-light is-small is-rounded' onClick={this.followUser}>follow</button>
         )
     }
 
@@ -69,11 +69,13 @@ export default class Follow extends React.Component {
     
     render() {
         return(
-                <span className='subtitle'>Created by {this.props.user.name}
+            <div>
+                <p className='subtitle is-4'>Created by {this.props.user.name}
                 {this.state.selfRecipe
                 ?null
                 :this.showFollowButton()
-                }</span>
+                }</p>
+            </div>
         )
     }
 }
