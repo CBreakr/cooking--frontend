@@ -68,12 +68,22 @@ export default class CommentContainer extends React.Component {
     render() {
         return (
             <div className='comments-container'>
-                <h4>Comments:</h4>
+                <h4 className='title is-4'>Comments:</h4>
                 {this.state.comments.map((comment, index) => <Comment key={index} {...comment} delete={this.deleteComment}/>)}
-                <h4>Add a comment:</h4>
-                <form onSubmit={this.submitComment}>
+                <h4 className='title is-4'>Add a comment:</h4>
+                {/* <form onSubmit={this.submitComment}>
                     <input value={this.state.newComment} placeholder='add a comment here' onChange={this.changeCommentInput}></input>
                     <input type="submit"></input>
+                </form> */}
+                <form onSubmit={this.submitComment}>
+                    <div className="field is-grouped">
+                        <p className="control is-expanded">
+                            <input className="input" type="text" value={this.state.newComment} placeholder='add a comment here' onChange={this.changeCommentInput}></input>
+                        </p>
+                        <p className="control">
+                            <input className='button is-link' type="submit" value="Submit" />
+                        </p>
+                    </div>
                 </form>
             </div>
         )

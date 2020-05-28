@@ -5,8 +5,8 @@ import AuthContext from "../AuthContext";
 
 //recipe list under this tag
 //when click 'detail' button, redirect to recipe details page
-class TagRecipe extends React.Component{
-    
+class TagRecipe extends React.Component {
+
     static contextType = AuthContext;
 
     state = {
@@ -15,9 +15,9 @@ class TagRecipe extends React.Component{
 
     componentDidMount() {
         getSingleRecipe(this.props.id, this.context.token)
-        .then(res => this.setState({
-            likes: res.data.likes.length
-        }))
+            .then(res => this.setState({
+                likes: res.data.likes.length
+            }))
     }
 
     recipeDetails = () => {
@@ -29,13 +29,14 @@ class TagRecipe extends React.Component{
     }
 
     render() {
-        return(
-            <>
-                <p>{this.props.user.name}: {this.props.title} | 
-                {this.state.likes} {this.state.likes > 1 ? 'likes': 'like'} |
-                <button onClick={this.recipeDetails}>Details</button>
+        return (
+            <div className="box">
+                <h1 className="title is-4"><i class="fas fa-user" color='orange'></i>{this.props.user.name}</h1>
+                <p>{this.props.title} <i class="fas fa-heart" color='red'></i> {this.state.likes}   {this.state.likes > 1 ? 'likes' : 'like'}</p>
+                <p>
+                    <button className='button is-danger is-small' onClick={this.recipeDetails}>Details</button>
                 </p>
-            </>
+            </div>
         )
     }
 

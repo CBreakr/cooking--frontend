@@ -8,7 +8,6 @@ class Tag extends React.Component{
 
     //when tag is clicked, redirect to TagList: "/:tag_name/recipes"
     clickTag = () => {
-        console.log(`Tag ${this.props.name} is clicked!`)
         this.props.history.push(`/${this.props.id}/recipes`)
     }
 
