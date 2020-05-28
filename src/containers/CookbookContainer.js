@@ -33,15 +33,6 @@ class CookbookContainer extends React.Component {
         )
     }
 
-    // recipeDetails = () => {
-    //     this.props.history.push(`/recipes/${this.translateID()}`)
-    // }
-
-    // translateID = () => {
-    //     return this.props.api_id ? `A${this.props.api_id}` : this.props.id
-    // }
-
-
     goToDetails = (recipe_id, api_id) => {
         let id = api_id ? `A${api_id}` : recipe_id
         console.log('recipe_id is:', id)
@@ -69,14 +60,14 @@ class CookbookContainer extends React.Component {
         return(
             <div>
                 <h4 className='title is-4'>My cookbook</h4>
-                {this.state.cookbook
+                {this.state.cookbook.length > 0
                 ? this.renderCookbook()
-                : null
+                : <h6 className='subtitle'>Start creating your first recipe</h6>
                 }
                 <h4 className='title is-4'>Liked recipe</h4>
-                {this.state.likedRecipes
+                {this.state.likedRecipes.length > 0
                 ? this.renderLiked()
-                : null
+                : <h6 className='subtitle'>No liked recipe</h6>
                 }
             </div>
         )
