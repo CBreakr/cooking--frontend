@@ -151,3 +151,7 @@ button:hover {
   margin-right: 440px;
   float: right;
 }
+
+.follow {
+  margin: auto 24px;
+}

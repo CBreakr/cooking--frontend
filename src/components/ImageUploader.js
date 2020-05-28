@@ -203,11 +203,34 @@ export default class ImageUploader extends PureComponent {
                         )
                         : ""
                     }
+                    {
+                        !this.state.imageSrc 
+                        && !this.state.imageURL 
+                        && this.props.loadedImageUrl
+                        && this.props.loadedImageUrl !== ""
+                        && !this.state.changed
+                        ? (
+                            <div>
+                                Pre-existing Image
+                                <img src={this.props.loadedImageUrl} alt="image" />                                
+                            </div>
+                        )
+                        : ""
+                    }
                 </div>
                 {
                     this.state.imageSrc || this.state.imageURL
                     ? <button onClick={this.removeImage}>Remove</button>
                     : ""
+                }
+                {
+                        !this.state.imageSrc 
+                        && !this.state.imageURL 
+                        && this.props.loadedImageUrl
+                        && this.props.loadedImageUrl !== ""
+                        && !this.state.changed
+                        ? <button onClick={this.removeExistingImage}>Remove</button>
+                        : ""
                 }
                 <br />
                 <p>
@@ -219,21 +242,6 @@ export default class ImageUploader extends PureComponent {
                 />
                 <button onClick={this.updateImageURL}>Set Image URL</button>
 
-                {
-                    !this.state.imageSrc 
-                    && !this.state.imageURL 
-                    && this.props.loadedImageUrl
-                    && this.props.loadedImageUrl !== ""
-                    && !this.state.changed
-                    ? (
-                        <div>
-                            Pre-existing Image
-                            <img src={this.props.loadedImageUrl} alt="image" />
-                            <button onClick={this.removeExistingImage}>Remove</button>
-                        </div>
-                    )
-                    : ""
-                }
                 {
                     this.state.changed
                     ? <button onClick={this.resetImage}>Reset Image</button>
