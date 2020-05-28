@@ -9,6 +9,7 @@ import RecipeListContainer from "./containers/RecipeListContainer";
 import RecipeDetailsContainer from "./containers/RecipeDetailContainer";
 import RecipeForm from "./components/RecipeForm";
 import TagList from './components/TagList'
+import CookbookContainer from './containers/CookbookContainer'
 
 import { withRouter } from "react-router-dom";
 
@@ -115,7 +116,7 @@ class App extends React.Component {
             ? <NavBar logout={this.logout} />
             : ""
           }
-          <div class="container">
+          <div className="container">
             <Switch>
               <Route path="/recipes/recipe_form/new">
                 {
@@ -152,6 +153,15 @@ class App extends React.Component {
                     </>
                   : <Redirect to="/" />
                 }
+              </Route>
+              <Route path="/cookbook">
+              {
+                this.state.user
+                ? <>
+                  <CookbookContainer />
+                  </>
+                : <Redirect to="/" />
+              }
               </Route>
               <Route path="/:tag_id/recipes">
               {

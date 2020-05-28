@@ -80,6 +80,12 @@ export const getSingleRecipe = (recipe_id, token) => {
     .catch(handleError);
 }
 
+// get '/recipes/liked/:user_id', to: 'recipes#liked_recipes'
+export const getLikedRecipe = (user_id, token) => {
+    return axios.get(`${baseURL}/recipes/liked/${user_id}`, config(token))
+    .catch(handleError);
+}
+
 //
 //
 //

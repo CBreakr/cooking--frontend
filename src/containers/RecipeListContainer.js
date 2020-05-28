@@ -3,7 +3,7 @@ import React from "react";
 import SearchBar from "../components/SearchBar";
 import RecipeList from "../components/RecipeList";
 
-import { getUserCookbook, socialRecipes } from "../requests";
+import { socialRecipes } from "../requests";
 
 import AuthContext from "../AuthContext";
 

@@ -15,12 +15,16 @@ class NavBar extends React.Component {
             {/* <nav className="nav"> */}
                 <div className="nav-left nav-menu">
                     <span className='nav-item'><FontAwesomeIcon icon={faCarrot} size="lg" /></span>
-                    {this.context.user ? <span>::<span className="username">{this.context.user.name}</span>::</span> : ""}
+                    {this.context.user ? 
+                    // <span>::<span className="username">{this.context.user.name}</span>::</span> 
+                    <Link className='button is-priamry' to="/cookbook">{this.context.user.name}</Link>
+                    : ""}
 
                 </div>
                 <div className='nav-center nav-menu'>
                     <Link className='button is-success is-outlined' to="/recipes/recipe_form/new">New Recipe</Link>
                     <Link className='button is-warning' to="/recipes">Social Recipes</Link>
+                    <Link className='button is-danger' to="/cookbook">My Cookbook</Link>
 
                 </div>
                 <div className='nav-right'>
