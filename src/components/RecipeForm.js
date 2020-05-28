@@ -134,7 +134,6 @@ class RecipeForm extends React.PureComponent {
 
         func(formRecipeData, this.context.token)
         .then(res => {
-            return;
             this.props.history.push("/recipes");
         });        
     }
