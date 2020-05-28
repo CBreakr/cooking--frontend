@@ -28,7 +28,7 @@ class SearchBar extends React.Component {
     render(){
         // console.log('Search state:', this.state)
         return (
-            <div>
+            <div className="search-bar">
                 <label htmlFor="search">Search</label>
                 <input type="text" id="search" 
                     value={this.state.search}

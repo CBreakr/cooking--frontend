@@ -109,8 +109,8 @@ class RecipeForm extends React.PureComponent {
 
         formRecipeData.append("changedImage", recipe.changedImage);
         formRecipeData.append("id", recipe.id);
-        formRecipeData.append("tags", recipe.tags);
-        formRecipeData.append("ingredients", recipe.ingredients);
+        formRecipeData.append("tags", JSON.stringify(recipe.tags));
+        formRecipeData.append("ingredients", JSON.stringify(recipe.ingredients));
 
         if(recipe.changedImage !== null) {
             formRecipeData.append('imageURL', recipe.imageURL);
@@ -134,6 +134,7 @@ class RecipeForm extends React.PureComponent {
 
         func(formRecipeData, this.context.token)
         .then(res => {
+            return;
             this.props.history.push("/recipes");
         });        
     }

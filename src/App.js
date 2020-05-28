@@ -115,62 +115,64 @@ class App extends React.Component {
             ? <NavBar logout={this.logout} />
             : ""
           }
-          <Switch>
-            <Route path="/recipes/recipe_form/new">
+          <div class="container">
+            <Switch>
+              <Route path="/recipes/recipe_form/new">
+                {
+                  this.state.user
+                  ? <>
+                    <RecipeForm new={true} />
+                    </>
+                  : <Redirect to="/" />
+                }
+              </Route>
+              <Route path="/recipes/recipe_form/:id">
+                {
+                  this.state.user
+                  ? <>
+                    <RecipeForm />
+                    </>
+                  : <Redirect to="/" />
+                } 
+              </Route>
+              <Route path="/recipes/:id">
+                {
+                  this.state.user
+                  ? <>
+                    <RecipeDetailsContainer />
+                    </>
+                  : <Redirect to="/" />
+                }
+              </Route>
+              <Route path="/recipes">
+                {
+                  this.state.user
+                  ? <>
+                    <RecipeListContainer />
+                    </>
+                  : <Redirect to="/" />
+                }
+              </Route>
+              <Route path="/:tag_id/recipes">
               {
                 this.state.user
                 ? <>
-                  <RecipeForm new={true} />
+                  <TagList />
                   </>
                 : <Redirect to="/" />
               }
             </Route>
-            <Route path="/recipes/recipe_form/:id">
-              {
-                this.state.user
-                ? <>
-                  <RecipeForm />
-                  </>
-                : <Redirect to="/" />
-              } 
-            </Route>
-            <Route path="/recipes/:id">
-              {
-                this.state.user
-                ? <>
-                  <RecipeDetailsContainer />
-                  </>
-                : <Redirect to="/" />
-              }
-            </Route>
-            <Route path="/recipes">
-              {
-                this.state.user
-                ? <>
-                  <RecipeListContainer />
-                  </>
-                : <Redirect to="/" />
-              }
-            </Route>
-            <Route path="/:tag_id/recipes">
-            {
-              this.state.user
-              ? <>
-                <TagList />
-                </>
-              : <Redirect to="/" />
-            }
-          </Route>
-            <Route path="/">
-              {
-                !this.state.user
-                ? <>
-                  <UserActionContainer setCurrentUser={this.setCurrentUser} />
-                  </>
-                : <Redirect to="/recipes" />
-              }
-            </Route>
-          </Switch>
+              <Route path="/">
+                {
+                  !this.state.user
+                  ? <>
+                    <UserActionContainer setCurrentUser={this.setCurrentUser} />
+                    </>
+                  : <Redirect to="/recipes" />
+                }
+              </Route>
+            </Switch>
+          </div>
         </div>
         )
         : <span>loading</span>

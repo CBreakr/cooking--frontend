@@ -37,6 +37,10 @@
   }
 }
 
+body {
+  margin-top: 1%;
+}
+
 .navbar {
   margin: 4px;
   padding: 4px;
@@ -64,4 +68,12 @@ img {
   /* max-width:50%; */
   width:auto;
   max-height: 300px;
+}
+
+.search-bar {
+  border: 1px solid black;
+}
+
+.container {
+  margin: 3% auto;
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCarrot } from '@fortawesome/free-solid-svg-icons'
 import { Link } from "react-router-dom";
+
 import AuthContext from "../AuthContext"
 
 class NavBar extends React.Component {
@@ -19,7 +20,7 @@ class NavBar extends React.Component {
                 </div>
                 <div className='nav-center nav-menu'>
                     <Link className='button is-success is-outlined' to="/recipes/recipe_form/new">New Recipe</Link>
-                    <Link className='button is-warning' to="/recipes">Food Listing</Link>
+                    <Link className='button is-warning' to="/recipes">Social Recipes</Link>
 
                 </div>
                 <div className='nav-right'>
