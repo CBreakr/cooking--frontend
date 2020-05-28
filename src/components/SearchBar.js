@@ -1,8 +1,8 @@
 import React from "react";
 
-import { searchRecipes } from "../requests";
-
 import AuthContext from "../AuthContext";
+
+import { withRouter } from "react-router-dom";
 
 class SearchBar extends React.Component {
 
@@ -18,26 +18,22 @@ class SearchBar extends React.Component {
 
     submitSearch = () => {
         console.log("Search token", this.context.token);
-        searchRecipes(this.state.search, this.context.token)
-        .then(res => {
-            console.log("SEARCH RESULTS", res.data);
-            res && this.props.updateRecipesList(res.data);
-        });
+
+        this.props.history.push(`/recipes?q=${this.state.search}`);
     }
 
     render(){
         // console.log('Search state:', this.state)
         return (
             <div className="search-bar">
-                <label htmlFor="search">Search</label>
                 <input type="text" id="search" 
                     value={this.state.search}
                     onChange={this.changeInput}
                 />
-                <button onClick={this.submitSearch}>Submit</button>
+                <button onClick={this.submitSearch}><i className="fas fa-search"></i></button>
             </div>
         )
     }
 }
 
-export default SearchBar;
+export default withRouter(SearchBar);

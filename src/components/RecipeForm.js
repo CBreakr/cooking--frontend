@@ -250,8 +250,8 @@ class RecipeForm extends React.PureComponent {
                             <td>Unit</td>
                             <td>Name</td>
                             <td>Instruction</td>
-                            <td></td>
-                            <td></td>
+                            <td className="button-cell"></td>
+                            <td className="button-cell"></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -264,14 +264,15 @@ class RecipeForm extends React.PureComponent {
                                     <td>{ing.measurement}</td>
                                     <td>{ing.name}</td>
                                     <td>{ing.instruction}</td>
-                                    <td>
+                                    <td className="button-cell">
                                         <button type="button" 
                                             data-name={ing.name}
                                             onClick={this.editIngredient}
                                         >Edit</button>
                                     </td>
-                                    <td>
+                                    <td className="button-cell">
                                         <button type="button" 
+                                            className="delete-button"
                                             data-name={ing.name}
                                             onClick={this.removeIngredient}
                                         >X</button>

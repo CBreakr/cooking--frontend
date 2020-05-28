@@ -112,7 +112,9 @@ const RecipeDetail = (props) => {
                         <img src={recipe.recipe.image} alt="Recipe image" />
                     </figure>
                 </div> */}
-                <h3 className='title is -3'>{recipe.recipe.title} | {checkLikes() ? <button onClick={removeLike}>♥</button> : <button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </h3>
+                <h3 className='title is -3'>{recipe.recipe.title}
+                <br />
+                {checkLikes() ? <button onClick={removeLike}>♥</button> : <button onClick={addLike}>♡</button>} {recipe.likes.length} {recipe.likes.length > 1 ? 'likes' : 'like'} </h3>
                 <Follow {...recipe} />
                 {recipe.recipe.user_id === context.user.id
                         ? 
@@ -125,9 +127,30 @@ const RecipeDetail = (props) => {
                 <p>{recipe.tags.map(tag => <Tag key={tag.id} {...tag} />)}</p>
                 <p className='content is-medium'>{recipe.recipe.description}</p>
                 <h4>Ingredients:</h4>
-                <ul>
-                    {recipe.ingredients.map((ingredient, index) => <li key={index}>{ingredient.name} {ingredient.quantity_number}{ingredient.measurement}</li>)}
-                </ul>
+                <table className="ingredient-table">
+                    <thead>
+                        <tr>
+                            <td>Quantity</td>
+                            <td>Unit</td>
+                            <td>Name</td>
+                            <td>Instruction</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {recipe.ingredients.map((ing, index) => {
+                            return ( 
+                                <tr key={index}>
+                                    <td>{ing.quantity_number}</td>
+                                    <td>{ing.measurement}</td>
+                                    <td>{ing.name}</td>
+                                    <td>{ing.instruction}</td>
+                                </tr>
+                            )
+                        })
+                    }
+                    </tbody>
+                </table>
+                
                 <p>
                     <strong>Steps:</strong><br /><br />
                     {recipe.recipe.steps}

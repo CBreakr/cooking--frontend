@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 import AuthContext from "../AuthContext"
 
+import SearchBar from "./SearchBar";
+
 class NavBar extends React.Component {
 
     static contextType = AuthContext;
@@ -79,6 +81,10 @@ class NavBar extends React.Component {
                                 My Cookbook
                             </a>
                         </div>
+                    </div>
+
+                    <div>
+                        <SearchBar updateRecipesList={this.updateRecipesList} />
                     </div>
 
                     <div className="navbar-end">

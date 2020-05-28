@@ -3,7 +3,9 @@ import React from "react";
 import SearchBar from "../components/SearchBar";
 import RecipeList from "../components/RecipeList";
 
-import { socialRecipes } from "../requests";
+import { socialRecipes, searchRecipes } from "../requests";
+
+import { withRouter } from "react-router-dom";
 
 import AuthContext from "../AuthContext";
 
@@ -12,7 +14,8 @@ class RecipeListContainer extends React.Component {
     state = {
         recipes: [],
         following_recipes: [],
-        own_recipes:[]
+        own_recipes:[],
+        search: ""
     }
 
     static contextType = AuthContext;
@@ -20,7 +23,9 @@ class RecipeListContainer extends React.Component {
     componentDidMount(){
         // get user's own recipes
 
-        console.log("CONTEXT", this.context);
+        console.log("CONTEXT RECIPE LIST CONTAINER", this.context);
+
+        const location = this.props.location.search;
 
         // getUserCookbook(this.context.token)
         // .then(res => {
@@ -28,12 +33,48 @@ class RecipeListContainer extends React.Component {
         //     this.setState({own_recipes: res.data});
         // });
 
-        //get social recipes
-        socialRecipes(this.context.user.name, this.context.token)
-        .then(res => this.setState({
-            recipes: res.data
-        }))
-        
+        console.log("RECIPE LIST PARAMS", location);
+
+        const search = location.replace("?q=", "");
+
+        if(search){
+            this.setSearch(search);
+        }
+        else{
+            //get social recipes
+            socialRecipes(this.context.user.name, this.context.token)
+            .then(res => this.setState({
+                recipes: res.data
+            }))
+        }
+    }
+
+    componentDidUpdate(){
+        const location = this.props.location.search;
+
+        // getUserCookbook(this.context.token)
+        // .then(res => {
+        //     console.log("cookbook", res.data);
+        //     this.setState({own_recipes: res.data});
+        // });
+
+        console.log("RECIPE LIST PARAMS", location);
+
+        const search = location.replace("?q=", "");
+
+        if(search && search !== this.state.search){
+            this.setSearch(search);
+        }
+    }
+
+    setSearch = (search) => {
+        this.setState({search, recipes: []}, () => {
+            searchRecipes(this.state.search, this.context.token)
+            .then(res => {
+                console.log("SEARCH RESULTS", res.data);
+                res && this.updateRecipesList(res.data);
+            });
+        }); 
     }
 
     updateRecipesList = (recipes) => {
@@ -56,7 +97,6 @@ class RecipeListContainer extends React.Component {
         console.log("recipe list props", this.props);
         return (
             <>
-            <SearchBar updateRecipesList={this.updateRecipesList} />
             {this.state.recipes.length > 0
             ? this.showSearchResult()
             : null
@@ -76,4 +116,4 @@ class RecipeListContainer extends React.Component {
     }
 }
 
-export default RecipeListContainer;
+export default withRouter(RecipeListContainer);

@@ -62,17 +62,30 @@ body {
 
 .ingredient-table {
   border: 1px solid black;
-  margin: 4px;
+  text-align: center !important;
+}
+
+.ingredient-table thead {
+  background-color: #eee;
+}
+
+.ingredient-table td {
+  padding: 2px 4px;
+  text-align: center;
+  border-right: 1px solid black;
+  text-align: center !important;
+}
+
+.ingredient-table td.button-cell {
+  padding: 2px 4px;
+  text-align: center;
+  border: none;
 }
 
 img {
   /* max-width:50%; */
   width:auto;
   max-height: 300px;
-}
-
-.search-bar {
-  border: 1px solid black;
 }
 
 .container {
@@ -86,7 +99,7 @@ img {
 .grid {
   display: grid;
   grid-template-columns: 
-    1fr 1fr 1fr;
+    1fr 4fr 1fr;
 }
 
 .grid * { grid-column: 2/3;}
@@ -109,3 +122,15 @@ img {
   float: right;
 }
 
+button:hover {
+  background-color:#eee;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.delete-button:hover {
+  background-color:red;
+  color: white;
+  border: 1px solid black;
+  border-radius: 3px;
+}

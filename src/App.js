@@ -42,6 +42,7 @@ class App extends React.Component {
 
     console.log("APP MOUNT url", this.props.location);
     const url = this.props.location.pathname;
+    const query = this.props.location.search;
     
     console.log("APP MOUNT LOCAL STORAGE")
     console.log(data);
@@ -59,8 +60,8 @@ class App extends React.Component {
           console.log("set URL")
           this.setCurrentUser(data, () => {
             if (url !== "/"){
-              console.log("pathname", url);
-              this.props.history.push(url);
+              console.log("pathname", url, query);
+              this.props.history.push(url+query);
             }
           });
         }
