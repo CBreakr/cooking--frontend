@@ -20,20 +20,20 @@ class SignupForm extends React.Component {
     register = (event) => {
         event.preventDefault();
         // check login
-        if(this.state.name && this.state.password){
-            if(this.state.password === this.state.confirmation){
+        if (this.state.name && this.state.password) {
+            if (this.state.password === this.state.confirmation) {
                 // if correct:
                 // call to register the user
-    
-                const user = {...this.state};
+
+                const user = { ...this.state };
                 this.registerUser(user);
             }
-            else{
-                this.setState({error: "passwords do not match"});
+            else {
+                this.setState({ error: "passwords do not match" });
             }
         }
-        else{
-            this.setState({error: "username and password required"});
+        else {
+            this.setState({ error: "username and password required" });
         }
     }
 
@@ -41,50 +41,56 @@ class SignupForm extends React.Component {
         console.log("REGISTER");
         registerUser(user, (err) => {
             console.log("ERROR REGISTERING");
-            this.setState({error: "could not register this user"});
+            this.setState({ error: "could not register this user" });
         })
-        .then(res => {
-            if(res){
-                console.log("REGISTER RES", res);
-                this.props.setCurrentUser(res.data);
-            }
-        });
+            .then(res => {
+                if (res) {
+                    console.log("REGISTER RES", res);
+                    this.props.setCurrentUser(res.data);
+                }
+            });
     }
 
-    render(){
+    render() {
         return (
-            <>
-            <h3>Register</h3>
-            {
-                this.state.error
-                ? <div className="error">{this.state.error}</div>
-                : ""
-            }
-            <form onSubmit={this.register}>
-                <label htmlFor="register_name">Username</label>
-                <input type="text" id="register_name" 
-                    name="name" 
-                    value={this.state.name} 
-                    onChange={this.onChange}
-                />
-                <br/>
-                <label htmlFor="register_password">Password</label>
-                <input type="password" id="register_password" 
-                    name="password" 
-                    value={this.state.password} 
-                    onChange={this.onChange}
-                />
-                <br/>
-                <label htmlFor="confirmation">Confirm Password</label>
-                <input type="password" id="confirmation" 
-                    name="confirmation" 
-                    value={this.state.confirmation} 
-                    onChange={this.onChange}
-                />
-                <br/>
-                <input type="submit" value="Register" />
-            </form>
-            </>
+            <div id='box2'>
+                <h3 id='form-grid' className='title is-3 register'>Register</h3>
+                {
+                    this.state.error
+                        ? <div className="error">{this.state.error}</div>
+                        : ""
+                }
+                <form onSubmit={this.register}>
+                    <div className='field'>
+                        <label className='label' htmlFor="register_name">Username</label>
+                        <input className='input is-success' type="text" id="register_name"
+                            name="name"
+                            value={this.state.name}
+                            onChange={this.onChange}
+                        />
+                    </div>
+
+                    <div className='field'>
+                        <label className='label' htmlFor="register_password">Password</label>
+                        <input className='input is-success' type="password" id="register_password"
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.onChange}
+                        />
+                    </div>
+                    <div className='field'>
+                        <label className='label' htmlFor="confirmation">Confirm Password</label>
+                        <input className='input is-success' type="password" id="confirmation"
+                            name="confirmation"
+                            value={this.state.confirmation}
+                            onChange={this.onChange}
+                        />
+                    </div>
+                    <div className='control'>
+                        <input className='button is-link' type="submit" value="Register" />
+                    </div>
+                </form>
+            </div>
         )
     }
 }

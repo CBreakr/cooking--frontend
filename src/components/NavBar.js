@@ -53,28 +53,43 @@ class NavBar extends React.Component {
             //         }</li>
             //     </ul>
             // </nav>
-            <nav className="nav">
-                <span className="nav-left">
-                    <a href="" className="nav-item">
-                        <span className="icon"><FontAwesomeIcon className='nav-item' icon={faCarrot} size="lg" /></span>
+            <nav className="navbar is-fixed-top is-borderless" role="navigation" aria-label="main navigation">
+                <div className="navbar-brand">
+                    <a className="navbar-item icon">
+                        <FontAwesomeIcon icon={faCarrot} size='lg' />
                     </a>
-                    {this.context.user ? <Link className='nav-item' to="/cookbook">{this.context.user.name}</Link> : ""}
-                </span>
-                <span className="nav-center">
-                    <a href="/recipes/recipe_form/new" className="nav-item">
-                        <button className='button is-primary is-inverted'>New Recipe</button>
-                    </a>
-                    <a href="/recipes" className="nav-item">
-                        <button className='button is-link is-inverted'>Social Recipe</button>
-                    </a>
-                    <a href="/cookbook" className="nav-item">
-                        <button className='button is-info is-inverted'>My Cookbook</button>
-                    </a>
-                </span>
+                </div>
 
-                <span className="nav-right">
-                    {this.context.user ? <button className='button is-danger is-inverted' onClick={this.props.logout}>Logout</button> : ""}
-                </span>
+                <div id="navbarBasicExample" className="navbar-menu">
+                    <div className="navbar-start">
+                        <div className="navbar-item">
+                            {this.context.user
+                                ? <a className="button is-link is-inverted" href='/cookbook'>{this.context.user.name}</a>
+                                : ""}
+
+                            <a className="button is-primary is-inverted" href='/recipes/recipe_form/new'>
+                                New Recipe
+                            </a>
+
+                            <a className="button is-success is-inverted" href='/recipes'>
+                                Social Recipes
+                            </a>
+
+                            <a className="button is-info is-inverted" href='/cookbook'>
+                                My Cookbook
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="navbar-end">
+                        <div className="navbar-item">
+                            {this.context.user
+                                ? <a className="button is-danger is-inverted" onClick={this.props.logout}><strong>Logout</strong></a>
+                                : ""
+                            }
+                        </div>
+                    </div>
+                </div>
             </nav>
         )
     }

@@ -117,63 +117,8 @@ class App extends React.Component {
             : ""
           }
           {/* <div className="container"> */}
-          <div className="container grid">
             <Switch>
-              <Route path="/recipes/recipe_form/new">
-                {
-                  this.state.user
-                  ? <>
-                    <RecipeForm new={true} />
-                    </>
-                  : <Redirect to="/" />
-                }
-              </Route>
-              <Route path="/recipes/recipe_form/:id">
-                {
-                  this.state.user
-                  ? <>
-                    <RecipeForm />
-                    </>
-                  : <Redirect to="/" />
-                } 
-              </Route>
-              <Route path="/recipes/:id">
-                {
-                  this.state.user
-                  ? <>
-                    <RecipeDetailsContainer />
-                    </>
-                  : <Redirect to="/" />
-                }
-              </Route>
-              <Route path="/recipes">
-                {
-                  this.state.user
-                  ? <>
-                    <RecipeListContainer />
-                    </>
-                  : <Redirect to="/" />
-                }
-              </Route>
-              <Route path="/cookbook">
-              {
-                this.state.user
-                ? <>
-                  <CookbookContainer />
-                  </>
-                : <Redirect to="/" />
-              }
-              </Route>
-              <Route path="/:tag_id/recipes">
-              {
-                this.state.user
-                ? <>
-                  <TagList />
-                  </>
-                : <Redirect to="/" />
-              }
-            </Route>
-              <Route path="/">
+              <Route exact path="/">
                 {
                   !this.state.user
                   ? <>
@@ -182,15 +127,54 @@ class App extends React.Component {
                   : <Redirect to="/recipes" />
                 }
               </Route>
+              <Route render={() => <WithContainer {...this.state} /> } />
             </Switch>
           </div>
-        </div>
         )
         : <span>loading</span>
       }
       </AuthContext.Provider>
     );
   }
+
 }
 
 export default withRouter(App);
+
+const WithContainer = (props) => {
+  console.log("WITH CONTAINER PROPS", props);
+  return (
+    <div className="container grid">
+      {
+        props.user
+        ? <>
+            <Switch>
+              <Route path="/recipes/recipe_form/new">
+                <RecipeForm new={true} />
+              </Route>
+              <Route path="/recipes/recipe_form/:id">
+                <RecipeForm />
+              </Route>
+              <Route path="/recipes/:id">
+                <RecipeDetailsContainer />
+              </Route>
+              <Route path="/recipes">
+                <RecipeListContainer />
+              </Route>
+              <Route path="/cookbook">
+                <CookbookContainer />
+              </Route>
+              <Route path="/:tag_id/recipes">
+                <TagList />
+              </Route>
+              <Route path="/">
+                <Redirect to="/" />
+              </Route>
+            </Switch>
+          </>
+        : <> 
+          <Redirect to="/" />
+        </>
+      }
+    </div>)  
+}
