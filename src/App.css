@@ -77,3 +77,12 @@ img {
 .container {
   margin: 3% auto;
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: 
+    [xl-start] 1fr [md-start] minmax(0, 624px) [md-end] 1fr [xl-end];
+}
+
+.grid * { grid-column: md;}
+.grid-xl { grid-column: xl;}

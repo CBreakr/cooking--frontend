@@ -116,7 +116,8 @@ class App extends React.Component {
             ? <NavBar logout={this.logout} />
             : ""
           }
-          <div className="container">
+          {/* <div className="container"> */}
+          <div className="container grid">
             <Switch>
               <Route path="/recipes/recipe_form/new">
                 {
