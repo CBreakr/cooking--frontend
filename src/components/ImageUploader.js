@@ -176,7 +176,7 @@ export default class ImageUploader extends PureComponent {
         // />
         // );
 
-        console.log("Image Uploader", this.state, this.props.loadedImageUrl);
+        console.log("Image Uploader", this.state, "AAA", this.props.loadedImageUrl);
 
         return (
         <Dropzone onDrop={this.onDrop}>
@@ -184,10 +184,35 @@ export default class ImageUploader extends PureComponent {
                 <>
                 <div className="dropzone" {...getRootProps()}>
                     <input {...getInputProps()} />
-                    Click me or drag image file HERE to upload!
+                    <p>Click me or drag image file HERE to upload!</p>
+                    {
+                        this.state.imageSrc
+                        ? (
+                            <>
+                            <img src={this.state.imageSrc} alt="image" />
+                            </>
+                        )
+                        : ""
+                    }
+                    {
+                        this.state.imageURL
+                        ? (
+                            <>
+                            <img src={this.state.imageURL} alt="image" />
+                            </>
+                        )
+                        : ""
+                    }
                 </div>
-                Or use image URL
+                {
+                    this.state.imageSrc || this.state.imageURL
+                    ? <button onClick={this.removeImage}>Remove</button>
+                    : ""
+                }
                 <br />
+                <p>
+                    Or use image URL
+                </p>
                 <input type="text" placeholder="image URL"
                     value={this.state.imageURLInput}
                     onChange={this.changeURLInput}
@@ -195,29 +220,10 @@ export default class ImageUploader extends PureComponent {
                 <button onClick={this.updateImageURL}>Set Image URL</button>
 
                 {
-                    this.state.imageSrc
-                    ? (
-                        <>
-                        <img src={this.state.imageSrc} alt="image" />
-                        <button onClick={this.removeImage}>Remove</button>
-                        </>
-                    )
-                    : ""
-                }
-                {
-                    this.state.imageURL
-                    ? (
-                        <>
-                        <img src={this.state.imageURL} alt="image" />
-                        <button onClick={this.removeImage}>Remove</button>
-                        </>
-                    )
-                    : ""
-                }
-                {
                     !this.state.imageSrc 
                     && !this.state.imageURL 
                     && this.props.loadedImageUrl
+                    && this.props.loadedImageUrl !== ""
                     && !this.state.changed
                     ? (
                         <div>

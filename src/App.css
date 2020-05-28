@@ -134,3 +134,13 @@ button:hover {
   border: 1px solid black;
   border-radius: 3px;
 }
+
+.dropzone {
+  padding: 2px;
+  border: 1px solid black;
+  cursor: default;
+}
+
+.dropzone:hover {
+  background-color: aquamarine;
+}
