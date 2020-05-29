@@ -8,6 +8,7 @@ class UserActionContainer extends React.Component {
         return (
             <>
             <LoginForm setCurrentUser={this.props.setCurrentUser} />
+            <div className='border-line'></div>
             <SignupForm setCurrentUser={this.props.setCurrentUser} />
             </>
         )
