@@ -96,7 +96,6 @@ class RecipeForm extends React.PureComponent {
 
         /*
         const recipe = {...this.state};
-
         console.log("recipe SUBMIT", recipe);
         */
 
@@ -217,11 +216,11 @@ class RecipeForm extends React.PureComponent {
         return (
             <>
                 <h4 className='title is-2'>
-                {
-                    this.state.id
-                    ? "Update Your Recipe"
-                    : "Create a New Recipe"
-                }
+                    {
+                        this.state.id
+                            ? "Update Your Recipe"
+                            : "Create a New Recipe"
+                    }
                 </h4>
                 <ImageUploader
                     loadedImageUrl={this.state.loadedImageUrl}
@@ -288,47 +287,59 @@ class RecipeForm extends React.PureComponent {
                         </div>
                     </div>
 
-                    <table className="ingredient-table table-margin">
-                        {/* <table className="new-ingredient-table"> */}
-                        <thead>
-                            <tr>
-                                <td>Quantity</td>
-                                <td>Unit</td>
-                                <td>Name</td>
-                                <td>Instruction</td>
-                                <td className="button-cell"></td>
-                                <td className="button-cell"></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                this.state.ingredients.map((ing, index) => {
-                                    console.log("ingredient", ing);
-                                    return (
-                                        <tr key={index}>
-                                            <td>{ing.quantity_number}</td>
-                                            <td>{ing.measurement}</td>
-                                            <td>{ing.name}</td>
-                                            <td>{ing.instruction}</td>
-                                            <td className="button-cell">
-                                                <button type="button"
-                                                    data-name={ing.name}
-                                                    onClick={this.editIngredient}
-                                                >Edit</button>
-                                            </td>
-                                            <td className="button-cell">
-                                                <button type="button"
-                                                    className="delete-button"
-                                                    data-name={ing.name}
-                                                    onClick={this.removeIngredient}
-                                                >X</button>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
+                    <div className="field is-horizontal">
+                        <div className="field-label is-normal">
+                            <label className="label">Ingredients table</label>
+                        </div>
+                        <div className="field-body">
+                            <div className="field">
+                                <div className="control">
+                                    <table className="ingredient-table new-form-margin">
+                                        {/* <table className="new-ingredient-table"> */}
+                                        <thead>
+                                            <tr>
+                                                <td>Quantity</td>
+                                                <td>Unit</td>
+                                                <td>Name</td>
+                                                <td>Instruction</td>
+                                                <td className="button-cell"></td>
+                                                <td className="button-cell"></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                this.state.ingredients.map((ing, index) => {
+                                                    console.log("ingredient", ing);
+                                                    return (
+                                                        <tr key={index}>
+                                                            <td>{ing.quantity_number}</td>
+                                                            <td>{ing.measurement}</td>
+                                                            <td>{ing.name}</td>
+                                                            <td>{ing.instruction}</td>
+                                                            <td className="button-cell">
+                                                                <button type="button"
+                                                                    data-name={ing.name}
+                                                                    onClick={this.editIngredient}
+                                                                >Edit</button>
+                                                            </td>
+                                                            <td className="button-cell">
+                                                                <button type="button"
+                                                                    className="delete-button"
+                                                                    data-name={ing.name}
+                                                                    onClick={this.removeIngredient}
+                                                                >X</button>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <IngredientInput editIngredient={this.state.editIngredient} addIngredient={this.addIngredient} />
                     <br />
                     <br />
@@ -357,7 +368,7 @@ class RecipeForm extends React.PureComponent {
                                     <div className='tag-margin' key={index}>
                                         {tag.name}
                                         <button type="button"
-                                        className="delete-button"
+                                            className="delete-button"
                                             data-name={tag.name}
                                             onClick={this.removeTag}
                                         >X</button>

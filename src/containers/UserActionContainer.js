@@ -11,11 +11,10 @@ class UserActionContainer extends React.Component {
         return (
             <>
             <div>
-                <div className="main-title">Cook <FontAwesomeIcon icon={faCarrot} size='lg' /> Book</div>
+                <div className="main-title">Cook <FontAwesomeIcon icon={faCarrot} color='orange' size='lg' /> Book</div>
                 <div className="user-action-container">
-                    <LoginForm setCurrentUser={this.props.setCurrentUser} />
-                    {/*
-                        <div className='border-line'></div>
+                    <LoginForm setCurrentUser={this.props.setCurrentUser} />          
+                        {/* <div className='border-line'></div>
                     */}
                     <SignupForm setCurrentUser={this.props.setCurrentUser} />
                 </div>

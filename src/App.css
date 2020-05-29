@@ -28,7 +28,7 @@ body {
 .ingredient-table {
   /* border: 1px solid black; */
   text-align: center !important;
-  margin-left: 60px;
+  /* margin-left: 50px; */
 }
 
 .ingredient-table thead {
@@ -246,4 +246,8 @@ button:hover {
 
 .recipe-submit {
   margin-left: 310px;
+}
+
+.new-form-margin {
+  margin-left: 0;
 }

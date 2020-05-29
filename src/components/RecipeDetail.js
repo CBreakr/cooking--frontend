@@ -162,7 +162,7 @@ const RecipeDetail = (props) => {
                     </tbody>
                 </table>
 
-                <p className='subtitle is-4'>Steps</p>
+                <p className='title is-4'>Steps</p>
                 <p>{recipe.recipe.steps}</p><br />
             </div>
         )

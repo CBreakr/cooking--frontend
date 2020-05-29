@@ -68,7 +68,12 @@ export default class CommentContainer extends React.Component {
     render() {
         return (
             <div className='comments-container'>
-                <h4 className='title is-4'>Comments:</h4>
+
+                {this.state.comments.length > 0
+                ? <h4 className='title is-4'>Comments:</h4>
+                : null
+                }
+                
                 {this.state.comments.map((comment, index) => <Comment key={index} {...comment} delete={this.deleteComment}/>)}
                 <h4 className='title is-4'>Add a comment:</h4>
                 {/* <form onSubmit={this.submitComment}>
