@@ -28,7 +28,7 @@ body {
 .ingredient-table {
   /* border: 1px solid black; */
   text-align: center !important;
-  /* margin-left: 50px; */
+  margin-left: 50px;
 }
 
 .ingredient-table thead {
@@ -83,10 +83,10 @@ img.list-element {
 .grid {
   display: grid;
   grid-template-columns: 
-    1fr 1fr 1fr 1fr 1fr;
+    1fr 3fr 1fr;
 }
 
-.grid * { grid-column: 2/5;}
+.grid * { grid-column: 1/5;}
 .grid-xl { grid-column: xl;}
 
 
@@ -237,17 +237,30 @@ button:hover {
 }
 
 .add-ingredient-button {
-  margin-left: 290px;
+  margin-left: 213px;
 }
 
 .tag-margin{
-  margin-left: 120px;
+  margin-left: 220px;
+  margin-bottom: 10px;
+}
+
+.tag-margin span {
+  margin-right: 8px;
+}
+
+.tag-margin button {
+  margin-left: 4px;
 }
 
 .recipe-submit {
-  margin-left: 310px;
+  margin-left: 545px;
 }
 
 .new-form-margin {
   margin-left: 0;
+}
+
+.tag-input {
+  margin-left: 15px;
 }

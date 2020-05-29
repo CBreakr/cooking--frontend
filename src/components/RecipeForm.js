@@ -361,23 +361,24 @@ class RecipeForm extends React.PureComponent {
                     </div>
 
                     <br />
-                    <ul>
+                    <div  className='tag-margin'>
                         {
                             this.state.tags.map((tag, index) => {
                                 return (
-                                    <div className='tag-margin' key={index}>
+                                    <span key={index} className='tag is-warning is-inverted is-medium'>
+                                        
                                         {tag.name}
                                         <button type="button"
                                             className="delete-button"
                                             data-name={tag.name}
                                             onClick={this.removeTag}
                                         >X</button>
-                                    </div>
+                                    </span>
 
                                 )
                             })
                         }
-                    </ul>
+                    </div>
                     <TagInput addTag={this.addTag} />
                     <br />
                     <button className='button is-success recipe-submit'>Submit Recipe</button>
@@ -620,12 +621,12 @@ class TagInput extends React.Component {
                 </div>
                 <div className="field-body">
                     <div className="field">
-                        <div className="control">
-                            <input className='input' type="text" id="name" name="name"
+                        <div className="control tag-input">
+                            <input className='input ' type="text" id="name" name="name"
                                 list="tags"
                                 value={this.state.name}
                                 onChange={this.onChange}
-                                placeholder='Enter or select an tag'
+                                placeholder='Enter or selec a tag'
                             />
                             <datalist id="tags">
                                 {
