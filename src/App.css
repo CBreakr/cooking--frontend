@@ -2,41 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 body {
   margin-top: 1%;
 }
@@ -66,7 +31,7 @@ body {
 }
 
 .ingredient-table thead {
-  background-color: #eee;
+  background-color: #ddd;
 }
 
 .ingredient-table td {
@@ -74,6 +39,10 @@ body {
   text-align: center;
   border-right: 1px solid black;
   text-align: center !important;
+}
+
+.ingredient-table tr:nth-child(even) {
+  background-color: #eee;
 }
 
 .ingredient-table td.button-cell {
@@ -86,6 +55,13 @@ img {
   /* max-width:50%; */
   width:auto;
   max-height: 300px;
+}
+
+img.list-element {
+  width:auto;
+  max-height: 100px;
+  margin-right: 32px;
+  border: 1px solid black;
 }
 
 .container {
@@ -133,6 +109,7 @@ button:hover {
   border-radius: 3px;
 }
 
+
 .dropzone {
   padding: 2px;
   border: 1px solid black;
@@ -144,14 +121,96 @@ button:hover {
 }
 
 .recipe-edit {
-  float: left;
+  /* float: left; */
+  margin-left: 12px;
 }
 
 .recipe-delete {
-  margin-right: 440px;
-  float: right;
+  /* margin-right: 440px;
+  float: right; */
+  margin-left: 12px;
 }
 
 .follow {
   margin: auto 24px;
+}
+
+.search-input {
+  /* border: 1px solid black; */
+  border-radius: 5px;
+  width: 220px;
+  height: 30px;
+  /* margin-top: 3%; */
+  font-size: 1.1rem;
+  padding: 2px;
+  margin-right: 2px;
+}
+
+.search-button {
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  width: 40px;
+  display: inline-block;
+  /* margin-top: 2%; */
+}
+
+.search-button {
+  color: #3273dc;
+}
+
+
+.search-button:hover {
+  background-color:#eee;
+  /* border: 1px solid black; */
+  border: none;
+  border-radius: 5px;
+}
+
+.search-bar {
+  margin-top: 2%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.likes-heart {
+  font-size: 1.2rem;
+  margin: auto 8px;
+}
+
+.details-button {
+  margin-top: 8px;
+}
+
+.recipe-list-element {
+  display: flex;
+  align-items: center;
+}
+
+.recipe-list-element:hover {
+  cursor: default;
+  background-color: #eee;
+  color: #3273dc;
+}
+
+.user-icon {
+  margin-right: 4px;
+}
+
+.cookbook-title {
+  margin: 0 4px;
+  font-weight: bold;
+}
+
+.main-title{
+  font-size: 4rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 40px;
+  color: 3273dc;
+}
+
+.nav-cookbook-icon {
+  margin: 0 12px;
 }

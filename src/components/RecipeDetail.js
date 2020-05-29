@@ -112,18 +112,23 @@ const RecipeDetail = (props) => {
                         <img src={recipe.recipe.image} alt="Recipe image" />
                     </figure>
                 </div> */}
-                <h3 className='title is-3'>{recipe.recipe.title}  {checkLikes() ? <button className='button is-white' onClick={removeLike}><FontAwesomeIcon color='red' icon={faHeart} /></button> 
-                : <button className='button is-white' onClick={addLike}><FontAwesomeIcon color='grey' icon={faHeart} /></button>}</h3>
+                <h3 className='title is-3'>{recipe.recipe.title}  
+                {
+                    checkLikes() 
+                    ? <button className='button is-white' onClick={removeLike}><FontAwesomeIcon color='red' icon={faHeart} /></button> 
+                    : <button className='button is-white' onClick={addLike}><FontAwesomeIcon color='grey' icon={faHeart} /></button>
+                }
+                </h3>
                 <Follow {...recipe} />
                 {recipe.recipe.user_id === context.user.id
                         ? 
                         <>  
-                            <div className='recipe-edit'>
+                            <span className='recipe-edit'>
                                 <button className='button is-info is-small is-rounded' onClick={gotoEditForm}>Edit</button>
-                            </div>
-                            <div className='recipe-delete'>
+                            </span>
+                            <span className='recipe-delete'>
                                 <button className='button is-info is-small is-rounded' onClick={triggerDelete}>Delete</button>
-                            </div>
+                            </span>
                         </>
                         : <button className='button is-primary is-small is-outlined' onClick={triggerCopyRecipe}>Copy</button>
                 }

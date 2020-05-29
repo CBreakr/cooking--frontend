@@ -54,12 +54,22 @@ class Recipe extends React.Component {
             //         I can also indicate whether this came from the API or not
             //     */}
             // </div>
-            <div className="box">
-                <h1 className="title is-4"><FontAwesomeIcon color='orange' icon={faUser} />{this.props.user.name}</h1>
-                <p>{this.props.title} <FontAwesomeIcon color='red' icon={faHeart} />{this.state.likes}   {this.state.likes > 1 ? 'likes' : 'like'}</p>
-                <p>
-                <button className='button is-danger is-small' onClick={this.recipeDetails}>Details</button>
-                </p>
+            <div className="box recipe-list-element" onClick={this.recipeDetails}>
+                <span>
+                    <img className="list-element" src={this.props.image ? this.props.image : "https://spoonacular.com/recipeImages/empty.jpg"} alt="recipe image" />
+                </span>
+                <span>
+                    <h1 className="title is-4"><span className="user-icon"><FontAwesomeIcon color='orange' icon={faUser} /></span>{this.props.user.name}</h1>
+                    <p>
+                        <span className="title is-3">{this.props.title}</span> <span className="likes-heart"><FontAwesomeIcon color='red' icon={faHeart} /></span>{this.state.likes}
+                    </p>
+                    {/* {this.state.likes > 1 ? 'likes' : 'like'} */}
+                    {/*
+                    <p>
+                    <button className='details-button button is-danger is-small' onClick={this.recipeDetails}>Details</button>
+                    </p>
+                    */}
+                </span>
             </div>
         )
     }

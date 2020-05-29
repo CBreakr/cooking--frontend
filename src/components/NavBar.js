@@ -56,10 +56,14 @@ class NavBar extends React.Component {
             //     </ul>
             // </nav>
             <nav className="navbar is-fixed-top is-borderless" role="navigation" aria-label="main navigation">
-                <div className="navbar-brand">
-                    <a className="navbar-item icon">
-                        <FontAwesomeIcon icon={faCarrot} size='lg' />
-                    </a>
+                <div className="navbar-brand nav-cookbook-icon">
+                    <Link to="/recipes">
+                        <a className="navbar-item icon">
+                            <span className="cookbook-title">C</span>
+                            <FontAwesomeIcon icon={faCarrot} size='lg' />
+                            <span className="cookbook-title">B</span>
+                        </a>
+                    </Link>                    
                 </div>
 
                 <div id="navbarBasicExample" className="navbar-menu">
@@ -83,8 +87,10 @@ class NavBar extends React.Component {
                         </div>
                     </div>
 
-                    <div>
-                        <SearchBar updateRecipesList={this.updateRecipesList} />
+                    <div className="navbar-middle">
+                        <div className="navbar-item">
+                            <SearchBar updateRecipesList={this.updateRecipesList} />
+                        </div>
                     </div>
 
                     <div className="navbar-end">

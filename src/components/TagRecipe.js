@@ -3,6 +3,9 @@ import { getSingleRecipe } from "../requests";
 import { withRouter } from "react-router-dom";
 import AuthContext from "../AuthContext";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faHeart } from '@fortawesome/free-solid-svg-icons'
+
 //recipe list under this tag
 //when click 'detail' button, redirect to recipe details page
 class TagRecipe extends React.Component {
@@ -30,12 +33,16 @@ class TagRecipe extends React.Component {
 
     render() {
         return (
-            <div className="box">
-                <h1 className="title is-4"><i class="fas fa-user" color='orange'></i>{this.props.user.name}</h1>
-                <p>{this.props.title} <i class="fas fa-heart" color='red'></i> {this.state.likes}   {this.state.likes > 1 ? 'likes' : 'like'}</p>
-                <p>
-                    <button className='button is-danger is-small' onClick={this.recipeDetails}>Details</button>
-                </p>
+            <div className="box recipe-list-element" onClick={this.recipeDetails}>
+                <span>
+                    <img className="list-element" src={this.props.image ? this.props.image : "https://spoonacular.com/recipeImages/empty.jpg"} alt="recipe image" />
+                </span>
+                <span>
+                    <h1 className="title is-4"><span className="user-icon"><FontAwesomeIcon color='orange' icon={faUser} /></span>{this.props.user.name}</h1>
+                    <p>
+                        <span className="title is-3">{this.props.title}</span> <span className="likes-heart"><FontAwesomeIcon color='red' icon={faHeart} /></span>{this.state.likes}
+                    </p>
+                </span>
             </div>
         )
     }

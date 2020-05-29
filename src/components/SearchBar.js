@@ -20,6 +20,7 @@ class SearchBar extends React.Component {
         console.log("Search token", this.context.token);
 
         this.props.history.push(`/recipes?q=${this.state.search}`);
+        this.setState({search: ""});
     }
 
     render(){
@@ -27,10 +28,11 @@ class SearchBar extends React.Component {
         return (
             <div className="search-bar">
                 <input type="text" id="search" 
+                    className="search-input"
                     value={this.state.search}
                     onChange={this.changeInput}
                 />
-                <button onClick={this.submitSearch}><i className="fas fa-search"></i></button>
+                <button className="search-button" onClick={this.submitSearch}><i className="fas fa-search"></i></button>
             </div>
         )
     }

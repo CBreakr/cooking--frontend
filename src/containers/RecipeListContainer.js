@@ -85,12 +85,11 @@ class RecipeListContainer extends React.Component {
         return(
             <>
             <br/>
-            <h3 className="title is-4">Recipes</h3>
+        <h3 className="title is-3">Recipes{this.state.search ? `: "${this.state.search}"` : ""}</h3>
                 <RecipeList recipes={this.state.recipes} />
             </>
         )
     }
-
 
     render(){
         console.log('🔫Recipe container, state:', this.state)
