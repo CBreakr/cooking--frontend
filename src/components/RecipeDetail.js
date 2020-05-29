@@ -25,8 +25,8 @@ const RecipeDetail = (props) => {
     // only run on mount
     useEffect(() => {
         // console.log("load detail", context.user);
-        
-        if(context.token){
+
+        if (context.token) {
             getSingleRecipe(params.id, context.token)
                 .then(res => {
                     console.log("found recipe", res);
@@ -95,14 +95,14 @@ const RecipeDetail = (props) => {
     const triggerCopyRecipe = () => {
         console.log("COPY", recipe);
         copyRecipe(recipe.recipe.id, context.token)
-        .then(res => {
-            console.log("COPY COMPLETE", res);
-            if(res && res.data && res.data.id){
-                history.push(`/recipes/${res.data.id}`);
-            }
-        });
+            .then(res => {
+                console.log("COPY COMPLETE", res);
+                if (res && res.data && res.data.id) {
+                    history.push(`/recipes/${res.data.id}`);
+                }
+            });
     }
-    
+
     const renderRecipe = () => {
         return (
             <div className='recipe-details'>
@@ -137,8 +137,8 @@ const RecipeDetail = (props) => {
                 <div className="box">
                     <p className='content is-medium'>{recipe.recipe.description}</p>
                 </div>
-                <h4>Ingredients:</h4>
-                <table className="ingredient-table">
+                <h4 className='title is-4'>Ingredients:</h4>
+                <table className="table is-bordered ingredient-table is-striped">
                     <thead>
                         <tr>
                             <td>Quantity</td>
@@ -148,8 +148,8 @@ const RecipeDetail = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                    {recipe.ingredients.map((ing, index) => {
-                            return ( 
+                        {recipe.ingredients.map((ing, index) => {
+                            return (
                                 <tr key={index}>
                                     <td>{ing.quantity_number}</td>
                                     <td>{ing.measurement}</td>
@@ -158,12 +158,12 @@ const RecipeDetail = (props) => {
                                 </tr>
                             )
                         })
-                    }
+                        }
                     </tbody>
                 </table>
-                
+
                 <p className='subtitle is-4'>Steps</p>
-                <p>{recipe.recipe.steps}</p>
+                <p>{recipe.recipe.steps}</p><br />
             </div>
         )
     }

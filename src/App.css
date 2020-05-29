@@ -26,8 +26,9 @@ body {
 }
 
 .ingredient-table {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   text-align: center !important;
+  margin-left: 60px;
 }
 
 .ingredient-table thead {
@@ -37,7 +38,7 @@ body {
 .ingredient-table td {
   padding: 2px 4px;
   text-align: center;
-  border-right: 1px solid black;
+  /* border-right: 1px solid black; */
   text-align: center !important;
 }
 
@@ -50,6 +51,13 @@ body {
   text-align: center;
   border: none;
 }
+
+
+
+.table-margin {
+  margin-left: 138px;
+}
+
 
 img {
   /* max-width:50%; */
@@ -75,10 +83,10 @@ img.list-element {
 .grid {
   display: grid;
   grid-template-columns: 
-    1fr 4fr 1fr;
+    1fr 1fr 1fr 1fr 1fr;
 }
 
-.grid * { grid-column: 2/4;}
+.grid * { grid-column: 2/5;}
 .grid-xl { grid-column: xl;}
 
 
@@ -117,7 +125,7 @@ button:hover {
 }
 
 .dropzone:hover {
-  background-color: aquamarine;
+  background-color: rgb(236, 198, 198);
 }
 
 .recipe-edit {
@@ -207,10 +215,35 @@ button:hover {
   font-size: 4rem;
   font-weight: bold;
   text-align: center;
-  margin: 40px;
+  margin-bottom: 60px;
   color: 3273dc;
 }
 
 .nav-cookbook-icon {
   margin: 0 12px;
+}
+
+  /*
+.search-bar{
+  margin-top: 13px;
+}
+*/
+
+.border-line {
+  height: 400px;
+  border-left: 1px solid rgb(185, 185, 185);
+  float: left;
+  margin-left: 85px;
+}
+
+.add-ingredient-button {
+  margin-left: 290px;
+}
+
+.tag-margin{
+  margin-left: 120px;
+}
+
+.recipe-submit {
+  margin-left: 310px;
 }

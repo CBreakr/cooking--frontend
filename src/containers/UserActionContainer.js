@@ -14,6 +14,9 @@ class UserActionContainer extends React.Component {
                 <div className="main-title">Cook <FontAwesomeIcon icon={faCarrot} size='lg' /> Book</div>
                 <div className="user-action-container">
                     <LoginForm setCurrentUser={this.props.setCurrentUser} />
+                    {/*
+                        <div className='border-line'></div>
+                    */}
                     <SignupForm setCurrentUser={this.props.setCurrentUser} />
                 </div>
             </div>
