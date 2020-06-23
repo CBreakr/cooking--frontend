@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:3000";
+// const baseURL = "http://localhost:3000";
+const baseURL = "https://cookbook-social-server.herokuapp.com";
 
 const handleError = err => console.error(err);
 
