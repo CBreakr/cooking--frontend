@@ -95,24 +95,26 @@ class RecipeListContainer extends React.Component {
         console.log('🔫Recipe container, state:', this.state)
         console.log("recipe list props", this.props);
         return (
-            <>
-            {this.state.recipes.length > 0
-            ? this.showSearchResult()
-            : null
-            }
-
-            {
-                /*
-                <h4>Following: </h4>
-                <RecipeList recipes={this.state.following_recipes} />
-                <h4>My recipes: </h4>
-                <RecipeList recipes={this.state.own_recipes} />
-                */
-            }
-            
-            </>
+            <div>RECIPE</div>
         )
     }
 }
+
+// <>
+// {this.state.recipes.length > 0
+// ? this.showSearchResult()
+// : null
+// }
+
+// {
+//     /*
+//     <h4>Following: </h4>
+//     <RecipeList recipes={this.state.following_recipes} />
+//     <h4>My recipes: </h4>
+//     <RecipeList recipes={this.state.own_recipes} />
+//     */
+// }
+
+// </div>
 
 export default withRouter(RecipeListContainer);
