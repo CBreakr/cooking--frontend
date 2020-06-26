@@ -82,11 +82,14 @@ class RecipeListContainer extends React.Component {
     }
 
     showSearchResult = () => {
+        console.log("showSearchResults");
         return(
             <>
             <br/>
-        <h3 className="title is-3">Recipes{this.state.search ? `: "${this.state.search}"` : ""}</h3>
-                <RecipeList recipes={this.state.recipes} />
+            <h3 className="title is-3">
+                Recipes{this.state.search ? `: "${this.state.search}"` : ""}
+            </h3>
+            <RecipeList recipes={this.state.recipes} />
             </>
         )
     }
@@ -99,7 +102,7 @@ class RecipeListContainer extends React.Component {
             <>
                 {this.state.recipes.length > 0
                 ? this.showSearchResult()
-                : null
+                : ""
                 }
             </>
         )

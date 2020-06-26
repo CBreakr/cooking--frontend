@@ -5,6 +5,10 @@ import Recipe from "../components/Recipe";
 class RecipeList extends React.Component {
 
     render(){
+
+        console.log("recipe list render");
+        console.log("RECIPE LIST", this.props);
+
         return (
             <>
             {
