@@ -94,6 +94,7 @@ class RecipeListContainer extends React.Component {
     render(){
         console.log('🔫Recipe container, state:', this.state)
         console.log("recipe list props", this.props);
+        console.log("test message");
         return (
             <div>RECIPE</div>
         )
