@@ -36,7 +36,7 @@ class Recipe extends React.Component {
     }
 
     render() {
-        // console.log("RECIPE PROPS", this.props);
+        console.log("RECIPE PROPS", this.props);
         return (
             // <div>
             //     <h4 className='subtitle is-4'>
