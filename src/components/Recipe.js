@@ -43,7 +43,14 @@ class Recipe extends React.Component {
                     <img className="list-element" src={this.props.image ? this.props.image : "https://spoonacular.com/recipeImages/empty.jpg"} alt="recipe image" />
                 </span>
                 <span>
-                    <h1 className="title is-4"><span className="user-icon"><FontAwesomeIcon color='orange' icon={faUser} /></span>{this.props.user.name}</h1>
+                    <h1 className="title is-4">
+                        <span className="user-icon"><FontAwesomeIcon color='orange' icon={faUser} />
+                        </span>{
+                            this.props.user
+                            ? this.props.user.name
+                            : ""
+                        }
+                    </h1>
                     <p>
                         <span className="title is-3">{this.props.title}</span> <span className="likes-heart"><FontAwesomeIcon color='red' icon={faHeart} /></span>{this.state.likes}
                     </p>
