@@ -101,15 +101,6 @@ class RecipeListContainer extends React.Component {
                 ? this.showSearchResult()
                 : null
                 }
-
-                {
-                    /*
-                    <h4>Following: </h4>
-                    <RecipeList recipes={this.state.following_recipes} />
-                    <h4>My recipes: </h4>
-                    <RecipeList recipes={this.state.own_recipes} />
-                    */
-                }
             </>
         )
     }
