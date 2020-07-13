@@ -9,6 +9,8 @@ server-side repo: https://github.com/CBreakr/cooking--backend
 
 ## Search and Share Recipes
 
+CookBook is a social media site for recipes. Users can search for recipes (both from other users and the Spoonacular API), create their own, copy recipes, like, comment, or follow other users.
+
 ## Technical Details
 
 This site was made with a React javascript frontend and a Ruby on Rails backend. It uses a PostgreSQL database for storage, ActiveStorage & the React Dropzone component for drag-and-drop image upload.
