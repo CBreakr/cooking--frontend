@@ -1,7 +1,7 @@
 
 # CookBook
 
-Many thanks to my project partner Yueying Wang (wyy1234567)
+Many thanks to my project partner Yueying Wang: https://github.com/wyy1234567
 
 Production URL: https://cookbook-social.herokuapp.com/
 
