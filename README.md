@@ -5,6 +5,8 @@ Many thanks to my project partner Yueying Wang: https://github.com/wyy1234567
 
 Production URL: https://cookbook-social.herokuapp.com/
 
+Video Demo: https://youtu.be/x2Te8MrorM0
+
 server-side repo: https://github.com/CBreakr/cooking--backend
 
 ## Search and Share Recipes
