@@ -43,6 +43,36 @@ export const registerUser = (user, callback) => {
     });
 }
 
+export const triggerPasswordReset = (username, callback) => {
+    const data = {
+        username
+    };
+
+    return axios.post(`${baseURL}/users/trigger_reset`, data)
+    .catch((err) => {
+        handleError();
+        if(callback && typeof callback === "function"){
+            callback(err);
+        }
+    });
+}
+
+export const resetPassword = (user, key, callback) => {
+    const data = {
+        username: user.name,
+        password: user.password,
+        key: key
+    };
+
+    return axios.patch(`${baseURL}/users/password_reset`, data)
+    .catch((err) => {
+        handleError();
+        if(callback && typeof callback === "function"){
+            callback(err);
+        }
+    });
+}
+
 export const loginUser = (user, callback) => {
     const data = {
         name: user.name,

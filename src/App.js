@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import UserActionContainer from "./containers/UserActionContainer";
 import RecipeListContainer from "./containers/RecipeListContainer";
 import RecipeDetailsContainer from "./containers/RecipeDetailContainer";
+import PasswordResetContainer from "./containers/PasswordResetContainer";
 import RecipeForm from "./components/RecipeForm";
 import TagList from './components/TagList'
 import CookbookContainer from './containers/CookbookContainer'
@@ -119,6 +120,9 @@ class App extends React.Component {
           }
           {/* <div className="container"> */}
             <Switch>
+              <Route path="/reset/:key">
+                <PasswordResetContainer setCurrentUser={this.setCurrentUser} />
+              </Route>
               <Route exact path="/">
                 {
                   !this.state.user

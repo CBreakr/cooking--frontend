@@ -264,3 +264,24 @@ button:hover {
 .tag-input {
   margin-left: 15px;
 }
+
+/*
+  password reset
+*/
+
+.login_label_container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.reset {
+  padding-right: 4px;
+  font-weight: normal;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.reset:hover {
+  color: blue;
+  text-decoration: none;
+}
