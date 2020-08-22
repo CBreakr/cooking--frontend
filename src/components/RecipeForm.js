@@ -124,7 +124,10 @@ class RecipeForm extends React.PureComponent {
 
         return errors;
     }
-
+    
+//////////////
+// end new
+//////////////
     submitRecipe = (event) => {
         event.preventDefault();
 
@@ -137,6 +140,9 @@ class RecipeForm extends React.PureComponent {
 
         const recipe = { ...this.state };
         const formRecipeData = new FormData(event.target);
+        ////////
+        // new
+        ///////
         const errors = this.validate(recipe.title, recipe.description, recipe.steps, recipe.ingredients);
 
         if (errors.length > 0) {
@@ -144,6 +150,9 @@ class RecipeForm extends React.PureComponent {
             window.scrollTo(0, 0)
             return;
         }
+        ////////
+        // end new
+        ///////
 
         console.log("editable recipe");
         console.log(recipe);
