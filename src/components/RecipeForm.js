@@ -24,7 +24,8 @@ class RecipeForm extends React.PureComponent {
         isPublic: false,
         ingredients: [],
         tags: [],
-        editIngredient: null
+        editIngredient: null,
+        errors: []
     }
 
     static contextType = AuthContext;
@@ -55,7 +56,8 @@ class RecipeForm extends React.PureComponent {
                 });
         }
     }
-
+// do i need the errors state in here? 
+// probably because this is maybe resetting things? 
     componentDidUpdate() {
         // console.log("RECIPE FORM STATE", this.state);
         if (this.props.new && this.state.id) {
@@ -69,7 +71,8 @@ class RecipeForm extends React.PureComponent {
                 steps: "",
                 isPublic: false,
                 ingredients: [],
-                tags: []
+                tags: [],
+
             });
         }
     }
@@ -90,7 +93,41 @@ class RecipeForm extends React.PureComponent {
             tags: recipe.tags
         });
     }
+///// new ////////
+    // require title and description 
+    // require steps.length > 10 && steps || ingredients.length > 0
+    // should check that it contains at least some letters... to avoid some spaces and no text
+    // how to add refocus after submit to focus on first field that has an error? or just to focus on the error message? 
 
+
+
+    validate = (title, description, steps, ingredients) => {
+        const errors = [];
+        // let titleInput = document.getElementById('title')
+        // ^comment and in title is for reference on how to add color border on error in vanilla js
+        
+        if (title.length === 0){
+            errors.push("Title field can't be empty");
+            // titleInput.style.borderColor = "red"
+        } 
+        // else {
+        //     titleInput.style.borderColor = "none"
+        // }
+
+        if (description.length === 0){
+            errors.push("Description field can't be empty");
+        } 
+        
+        if (steps.length === 0 && ingredients.length === 0){
+            errors.push("Steps or Ingredients must be included")
+        } 
+
+        return errors;
+    }
+    
+//////////////
+// end new
+//////////////
     submitRecipe = (event) => {
         event.preventDefault();
 
@@ -103,6 +140,19 @@ class RecipeForm extends React.PureComponent {
 
         const recipe = { ...this.state };
         const formRecipeData = new FormData(event.target);
+        ////////
+        // new
+        ///////
+        const errors = this.validate(recipe.title, recipe.description, recipe.steps, recipe.ingredients);
+
+        if (errors.length > 0) {
+            this.setState({ errors });
+            window.scrollTo(0, 0)
+            return;
+        }
+        ////////
+        // end new
+        ///////
 
         console.log("editable recipe");
         console.log(recipe);
@@ -209,9 +259,20 @@ class RecipeForm extends React.PureComponent {
 
     resetImage = () => this.setState({ imageSrc: null, imageUrl: null, changedImage: false });
 
-    render() {
+    notice = () => {
 
+        return(
+            <div>
+                <p>Required fields: title, description, and at least one ingredient or step</p>
+            </div>
+        )
+    }
+
+
+    render() {
+        const { errors } = this.state
         /*loadedImage={this.props.recipe.image}*/
+
 
         return (
             <>
@@ -232,6 +293,15 @@ class RecipeForm extends React.PureComponent {
                 />
                 <hr />
                 <form onSubmit={this.submitRecipe}>
+                    {this.notice()}
+                    <div style={{margin: '1rem 0 2rem 0'}}>
+                        {
+                            errors.map(error => (
+                                <p className='error' key={error}>Error: {error}</p>
+                            ))
+                            
+                        }
+                    </div>
 
                     <div className='field is-horizontal'>
                         <div className='field-label'>
@@ -258,6 +328,7 @@ class RecipeForm extends React.PureComponent {
                         <div className="field-body">
                             <div className="field">
                                 <div className="control is-expanded has-icons-left has-icons-right">
+{/* ////////// TITLE ///////////// */}
                                     <input className='input' type="text" id="title" name="title"
                                         value={this.state.title}
                                         onChange={this.onChange}
@@ -277,6 +348,7 @@ class RecipeForm extends React.PureComponent {
                         <div className="field-body">
                             <div className="field">
                                 <div className="control" >
+{/* ////////// DESCRIPTION ///////////// */}
                                     <textarea id="description" name="description" className="textarea"
                                         value={this.state.description}
                                         onChange={this.onChange}
@@ -297,6 +369,7 @@ class RecipeForm extends React.PureComponent {
                                     <table className="ingredient-table new-form-margin">
                                         {/* <table className="new-ingredient-table"> */}
                                         <thead>
+{/* ////////// ALTERING ORDER OF TABLE ///////////// */}
                                             <tr>
                                                 <td>Quantity</td>
                                                 <td>Unit</td>
@@ -339,7 +412,6 @@ class RecipeForm extends React.PureComponent {
                             </div>
                         </div>
                     </div>
-
                     <IngredientInput editIngredient={this.state.editIngredient} addIngredient={this.addIngredient} />
                     <br />
                     <br />
@@ -350,6 +422,7 @@ class RecipeForm extends React.PureComponent {
                         <div className="field-body">
                             <div className="field">
                                 <div className="control" >
+{/* ////////// STEPS ///////////// */}
                                     <textarea className="textarea" id="steps" name="steps"
                                         value={this.state.steps}
                                         onChange={this.onChange}
@@ -395,10 +468,10 @@ export default withRouter(RecipeForm);
 //
 class IngredientInput extends React.Component {
     state = {
-        quantity_number: "",
-        measurement: "",
         name: "",
         instruction: "",
+        quantity_number: "",
+        measurement: "",
         existingIngredients: []
     }
 
@@ -467,10 +540,10 @@ class IngredientInput extends React.Component {
     setDefaultState = () => {
         this.setState({
             id: null,
+            name: "",
+            instruction: "",
             quantity_number: "",
             measurement: "",
-            name: "",
-            instruction: ""
         })
     }
 
@@ -479,38 +552,6 @@ class IngredientInput extends React.Component {
 
             <>
                 <br />
-                <div className="field is-horizontal">
-                    <div className="field-label is-normal">
-                        <label className="label" htmlFor="quantity_number">Quantity</label>
-                    </div>
-                    <div className="field-body">
-                        <div className="field">
-                            <div className="control">
-                                <input className='input' type="number" id="quantity_number" name="quantity_number"
-                                    value={this.state.quantity_number}
-                                    onChange={this.onChange}
-                                    placeholder='Enter a quantity number'
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="field is-horizontal">
-                    <div className="field-label is-normal">
-                        <label className="label" htmlFor="measurement">Unit</label>
-                    </div>
-                    <div className="field-body">
-                        <div className="field">
-                            <div className="control">
-                                <input className='input' type="text" id="measurement" name="measurement"
-                                    value={this.state.measurement}
-                                    onChange={this.onChange}
-                                    placeholder='e.g. pound, teaspoon, oz'
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div className="field is-horizontal">
                     <div className="field-label is-normal">
                         <label className="label" htmlFor="name">Name</label>
@@ -551,6 +592,39 @@ class IngredientInput extends React.Component {
                         </div>
                     </div>
                 </div>
+                <div className="field is-horizontal">
+                    <div className="field-label is-normal">
+                        <label className="label" htmlFor="quantity_number">Quantity</label>
+                    </div>
+                    <div className="field-body">
+                        <div className="field">
+                            <div className="control">
+                                <input className='input' type="number" id="quantity_number" name="quantity_number"
+                                    value={this.state.quantity_number}
+                                    onChange={this.onChange}
+                                    placeholder='Enter a quantity number'
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="field is-horizontal">
+                    <div className="field-label is-normal">
+                        <label className="label" htmlFor="measurement">Unit</label>
+                    </div>
+                    <div className="field-body">
+                        <div className="field">
+                            <div className="control">
+                                <input className='input' type="text" id="measurement" name="measurement"
+                                    value={this.state.measurement}
+                                    onChange={this.onChange}
+                                    placeholder='e.g. pound, teaspoon, oz'
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
 
                 <button className='add-ingredient-button button is-info' onClick={this.onSubmit}>Add Another Ingredient</button>
             </>
